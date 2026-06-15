@@ -2,7 +2,7 @@
 
 A standalone Windows desktop OCR tool that lives in your system tray. It extracts text from screen regions or image files using **Tesseract** (local, free) or **Mistral AI** (cloud, high-accuracy), detects languages, translates text, and includes a browser-based **QR & Barcode Reader** and a **Desktop Color Picker**.
 
-No Python installation required — just extract the ZIP and run `OCRLing.exe`.
+No Python installation required - just extract the ZIP and run `OCRLing.exe`.
 
 **Download:** [OCRLing_v1.0.1](https://drive.google.com/file/d/1GjkFEgafQAvWVPMqzKtMXLDGJntuW5AU/view?usp=sharing)
 
@@ -76,6 +76,11 @@ flowchart TD
 | **Image zoom** | Pan and zoom the source image inside the result window |
 | **Scrollable windows** | All result windows have vertical scrollbars and are freely resizable |
 | **Loading animation** | Animated overlay confirms OCR is running; UI stays responsive (background thread) |
+
+<img width="572" height="301" alt="image" src="https://github.com/user-attachments/assets/b3f8812f-925e-4904-b3c8-3694e7529b72" />
+
+<img width="1400" height="1159" alt="image" src="https://github.com/user-attachments/assets/36f223da-544a-4e18-8795-869dda10c111" />
+
 
 ### QR & Barcode Reader
 
