@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OCRLing - QR &amp; Barcode Reader</title>
+	<link rel="icon" href="images/app_logo.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <style>
+:root{
+  --bg:#0d0f14;--bg2:#141720;--bg3:#1c1f2e;--bg4:#252836;--bg5:#1a1d2a;
+  --border:#2e3248;--accent:#f97316;--accent2:#fb923c;--accent-dim:rgba(249,115,22,0.12);
+  --text:#e8eaf0;--text2:#9da3b8;--text3:#5c6280;
+  --green:#22d3a0;--blue:#60a5fa;--purple:#a78bfa;--yellow:#fbbf24;--red:#f87171;--pink:#f472b6;
+  --shadow:0 8px 32px rgba(0,0,0,0.5);--tr:0.2s ease;
+  color-scheme:dark;
+}
+[data-theme="light"]{
+  --bg:#f0f2f8;--bg2:#ffffff;--bg3:#e8eaf2;--bg4:#dde0ef;--bg5:#f5f6fb;
+  --border:#c8ccdf;--text:#1a1d2e;--text2:#4a5070;--text3:#8890b0;
+  --shadow:0 8px 32px rgba(0,0,0,0.12);--accent-dim:rgba(249,115,22,0.08);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-top:60px;padding-bottom:60px;transition:background var(--tr),color var(--tr);overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:40px 40px;opacity:.17;pointer-events:none;z-index:0}
+
+/* NAV */
+.nav-menu,.nav-menu ul,.nav-menu li,.nav-menu a{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:12px;margin:0;padding:0;line-height:normal;list-style:none;display:block;position:relative}
+.nav-menu{background-color:#333;color:white;position:fixed;top:0;left:0;width:100%;z-index:1000;margin:0;padding:0}
+.nav-center{display:flex;justify-content:flex-start;align-items:center;width:100%;margin:0;padding:0}
+.nav-menu ul{opacity:0;position:absolute;top:100%;left:-9999px;z-index:999;transition:opacity .3s}
+.nav-menu li:hover>ul{left:0;opacity:1;z-index:1000}
+.nav-menu ul li:hover>ul{top:0;left:100%}
+.nav-menu li{cursor:default;float:none;white-space:nowrap;display:inline-block}
+.nav-menu ul li{float:none;display:block}
+.nav-menu ul{min-width:12em;box-shadow:2px 2px 2px rgba(0,0,0,.25)}
+.nav-menu ul ul{max-height:400px;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#f97316 #444}
+.nav-menu ul ul::-webkit-scrollbar{width:8px}
+.nav-menu ul ul::-webkit-scrollbar-track{background:#444;border-radius:4px}
+.nav-menu ul ul::-webkit-scrollbar-thumb{background:#f97316;border-radius:4px}
+.nav-menu a{padding:0 17px;color:white;font-weight:normal;font-size:17px;line-height:40px;text-decoration:none;display:block}
+.nav-menu a:hover,.nav-menu a:focus,.nav-menu li:hover a{background:#449666;color:white;font-size:16px}
+.nav-menu li li a,.nav-menu li:hover li a{padding:8px 10px;background:#555;color:#FFF;font-size:12px;line-height:normal}
+.nav-menu li:hover li a:hover,.nav-menu li:hover li a:focus,.nav-menu li:hover li:hover a{background:#449666;font-size:16px}
+.nav-menu li:hover li:hover li a{background:#555;font-size:12px}
+.nav-menu li:hover li:hover li a:hover,.nav-menu li:hover li:hover li a:focus,.nav-menu li:hover li:hover li:hover a{background:#449666;font-size:16px}
+.nav-menu li:hover li:hover li:hover li a{background:#333}
+.nav-menu li:hover li:hover li:hover li a:hover,.nav-menu li:hover li:hover li:hover li a:focus{background:#222}
+.arrow{border:solid white;border-width:0 3px 3px 0;display:inline-block;padding:2px;vertical-align:middle}
+.right{transform:rotate(-45deg);-webkit-transform:rotate(-45deg)}
+.down{transform:rotate(45deg);-webkit-transform:rotate(45deg)}
+
+/* MAIN */
+main{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:32px 24px}
+
+/* BUTTONS */
+.btn-icon{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all var(--tr);font-family:inherit}
+.btn-icon:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+.btn-primary{padding:8px 18px;border-radius:8px;border:none;background:var(--accent);color:white;font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:all var(--tr);display:inline-flex;align-items:center;gap:5px}
+.btn-primary:hover{background:var(--accent2);box-shadow:0 4px 12px rgba(249,115,22,.3)}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed}
+.btn-secondary{padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text2);font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:all var(--tr);display:inline-flex;align-items:center;gap:5px}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+.btn-danger{padding:8px 16px;border-radius:8px;border:1px solid var(--red);background:transparent;color:var(--red);font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;cursor:pointer;transition:all var(--tr);display:inline-flex;align-items:center;gap:5px}
+.btn-danger:hover{background:rgba(248,113,113,.08)}
+.btn-sm{padding:5px 10px;font-size:.72rem}
+
+/* HERO */
+.hero{text-align:center;margin-bottom:24px;padding-top:44px}
+.hero h1{font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:8px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p{color:var(--text2);font-size:.95rem;max-width:520px;margin:0 auto;line-height:1.6}
+
+/* LAYOUT */
+.layout-grid{display:grid;grid-template-columns:3fr 2fr;gap:20px;align-items:start}
+
+/* PANELS */
+.panel-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:16px}
+.panel-wrap:last-child{margin-bottom:0}
+.panel-hdr{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--bg3)}
+.panel-hdr-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3)}
+.panel-body{padding:16px}
+
+/* TABS */
+.tab-pills{display:flex;gap:6px}
+.tab-pill{padding:6px 16px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;cursor:pointer;transition:all var(--tr)}
+.tab-pill.active{background:var(--accent);border-color:var(--accent);color:white}
+.tab-pill:not(.active):hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+
+/* DROP ZONE */
+.drop-zone{border:2px dashed var(--border);border-radius:12px;padding:48px 24px;text-align:center;cursor:pointer;transition:all var(--tr);background:var(--bg5);min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:var(--accent-dim)}
+.drop-zone-icon{font-size:3rem;margin-bottom:4px;line-height:1}
+.drop-zone-title{font-size:1rem;font-weight:700;color:var(--text2)}
+.drop-zone-sub{font-size:.8rem;color:var(--text3);line-height:1.5}
+.drop-zone-hint{font-size:.7rem;color:var(--text3);margin-top:4px}
+
+/* IMAGE PREVIEW */
+.preview-wrap{display:none;border:1px solid var(--border);border-radius:8px;overflow:auto;background:var(--bg5);text-align:center}
+.preview-wrap canvas{display:inline-block;max-width:100%}
+.preview-controls{display:none;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap}
+.input-btn-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+
+/* SCAN INDICATOR */
+.scan-indicator{display:none;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.2);margin-top:10px;font-size:.78rem;color:var(--accent);font-weight:600}
+.scan-indicator.show{display:flex}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.scan-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 1s infinite;flex-shrink:0}
+
+/* CAMERA */
+.camera-section{display:none}
+.camera-controls-row{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.camera-select{flex:1;min-width:0;padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-family:'Syne',sans-serif;font-size:.82rem;outline:none;cursor:pointer;transition:border-color var(--tr)}
+.camera-select:focus{border-color:var(--accent)}
+.camera-select:disabled{opacity:.5;cursor:not-allowed}
+.video-wrap{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:#000;position:relative;min-height:200px;display:flex;align-items:center;justify-content:center}
+.video-wrap video{width:100%;height:auto;max-height:420px;display:block}
+#camReader{width:100%;align-self:stretch;display:flex;flex-direction:column}
+#camReader video{width:100%;height:auto;max-height:420px;display:block;object-fit:cover}
+.camera-placeholder{position:absolute;text-align:center;color:var(--text3);pointer-events:none}
+.camera-placeholder-icon{font-size:2.4rem;margin-bottom:8px}
+.camera-status{font-size:.78rem;color:var(--text3);margin-top:6px;text-align:center;min-height:18px;padding:3px 0}
+.camera-status.scanning{color:var(--accent)}
+.camera-status.found{color:var(--green)}
+.camera-status.err{color:var(--red)}
+/* active/inactive badge */
+.cam-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:600;background:var(--bg4);color:var(--text3);border:1px solid var(--border);white-space:nowrap;transition:all var(--tr)}
+.cam-badge.active{background:rgba(34,211,160,.13);color:var(--green);border-color:rgba(34,211,160,.4)}
+.cam-badge-dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+/* detection highlight overlay */
+.cam-highlight{position:absolute;border:3px solid #22d3a0;border-radius:6px;pointer-events:none;z-index:20;display:none;background:rgba(34,211,160,.08);box-shadow:0 0 20px rgba(34,211,160,.5)}
+.cam-highlight.show{display:block;animation:camPulse .7s ease-out forwards}
+@keyframes camPulse{0%{border-width:3px;opacity:1}45%{border-width:5px;box-shadow:0 0 28px rgba(34,211,160,.8)}100%{border-width:3px;opacity:.9}}
+/* inline camera result card */
+.cam-result-card{margin-top:10px;padding:12px;background:var(--bg3);border-radius:8px;border:1px solid var(--border);border-left:3px solid var(--green)}
+.cam-result-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.cam-result-value{font-family:'JetBrains Mono',monospace;font-size:.82rem;word-break:break-all;color:var(--text);background:var(--bg4);padding:8px 10px;border-radius:6px;max-height:72px;overflow-y:auto}
+.cam-capture-wrap{margin-top:8px;background:#fff;border-radius:6px;display:flex;justify-content:center;padding:4px}
+.cam-capture-img{display:block;max-width:100%;max-height:90px;border-radius:4px;object-fit:contain}
+
+/* ENHANCEMENT PANEL */
+.enh-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border)}
+.enh-row:last-of-type{border-bottom:none}
+.enh-label{font-size:.8rem;color:var(--text2);font-weight:600;min-width:80px}
+.enh-control{display:flex;align-items:center;gap:8px;flex:1;justify-content:flex-end}
+.enh-range{-webkit-appearance:none;appearance:none;width:100px;height:4px;border-radius:2px;background:var(--bg4);outline:none;cursor:pointer}
+.enh-range::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg2);box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.enh-range::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;border:2px solid var(--bg2)}
+.enh-val{font-size:.72rem;color:var(--text3);font-family:'JetBrains Mono',monospace;min-width:38px;text-align:right}
+
+/* TOGGLE */
+.toggle-switch{position:relative;width:44px;height:24px;background:var(--bg4);border:1px solid var(--border);border-radius:50px;cursor:pointer;transition:all var(--tr);outline:none;flex-shrink:0}
+.toggle-switch.on{background:var(--accent);border-color:var(--accent)}
+.toggle-switch::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:var(--text3);top:3px;left:3px;transition:all .25s cubic-bezier(.68,-.55,.265,1.55);box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.toggle-switch.on::after{transform:translateX(20px);background:white}
+
+/* RESULT PANEL */
+.result-empty{text-align:center;padding:32px 16px;color:var(--text3)}
+.result-empty-icon{font-size:2.5rem;margin-bottom:10px}
+.result-empty p{font-size:.82rem;line-height:1.5}
+.result-card{display:none}
+.result-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:6px;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+.badge-qr{background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.4);color:var(--blue)}
+.badge-2d{background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.4);color:var(--purple)}
+.badge-1d{background:rgba(34,211,160,.12);border:1px solid rgba(34,211,160,.4);color:var(--green)}
+.result-meta{font-size:.72rem;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.result-data{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--text);word-break:break-all;max-height:180px;overflow-y:auto;margin-bottom:12px;line-height:1.65;white-space:pre-wrap}
+.result-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+/* ERROR */
+.err-box{display:none;margin-top:12px;padding:11px 14px;border-radius:8px;background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);color:var(--red);font-size:.8rem;line-height:1.55;gap:8px;align-items:flex-start}
+.err-box.show{display:flex}
+.err-icon{flex-shrink:0;font-size:.9rem;margin-top:1px}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;padding:10px 18px;border-radius:10px;background:var(--bg2);border:1px solid var(--green);color:var(--green);font-size:.82rem;font-weight:600;z-index:3000;box-shadow:var(--shadow);display:none;align-items:center;gap:6px}
+.toast.show{display:flex;animation:slideIn .22s ease}
+@keyframes slideIn{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
+
+/* LIBRARY ERROR BANNER */
+.lib-error{display:none;margin-bottom:16px;padding:12px 16px;border-radius:10px;background:rgba(248,113,113,.09);border:1px solid rgba(248,113,113,.3);color:var(--red);font-size:.82rem;line-height:1.55;gap:10px;align-items:flex-start}
+.lib-error.show{display:flex}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--bg3)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--text3)}
+
+/* MODAL */
+.modal{display:none;position:fixed;z-index:2000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.72);backdrop-filter:blur(6px)}
+.modal-content{background:var(--bg2);border:1px solid var(--border);border-radius:16px;max-width:700px;width:90%;max-height:88vh;overflow-y:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);box-shadow:var(--shadow)}
+.modal-inner{padding:28px}
+.modal-close{position:absolute;top:14px;right:16px;color:var(--text3);font-size:1.4rem;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:6px;transition:all var(--tr);line-height:1}
+.modal-close:hover{color:var(--accent);background:var(--accent-dim)}
+.modal h2{font-size:1.08rem;font-weight:800;color:var(--text);margin-bottom:20px;padding-right:40px;line-height:1.3}
+.modal h3{font-size:.78rem;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.07em;margin:20px 0 8px}
+.modal h3:first-child{margin-top:0}
+.modal h4{font-size:.82rem;font-weight:700;color:var(--text);margin:10px 0 5px}
+.modal p,.modal li{color:var(--text2);font-size:.82rem;line-height:1.65;margin-bottom:8px}
+.modal ul{padding-left:18px;margin-bottom:12px}
+.modal code{background:var(--bg4);border-radius:4px;padding:1px 6px;font-family:'JetBrains Mono',monospace;font-size:.78em;color:var(--accent)}
+.modal strong{color:var(--text)}
+.use-case{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:13px;margin-bottom:9px;border-left:3px solid var(--accent)}
+.tip-box{background:rgba(96,165,250,.07);border:1px solid rgba(96,165,250,.25);border-radius:8px;padding:11px 14px;margin-bottom:10px}
+.tip-box p{color:var(--blue);margin:0;font-size:.8rem}
+
+@media(max-width:860px){
+  .layout-grid{grid-template-columns:1fr}
+  main{padding:20px 14px}
+  .enh-range{width:80px}
+}
+  </style>
+</head>
+<header>
+    <nav>
+      <ul class="nav-menu nav-center">
+        <li><a href="help.html">Home</a></li>
+		<li><a href="release_notes.html">Release Notes</a></li>
+		<li><a href="help.html#troubleshooting">Troubleshooting</a></li>
+      </ul>
+    </nav>
+</header>
+<body>
+<main>
+
+  <!-- Top-right controls -->
+  <div style="display:flex;gap:8px;position:absolute;top:24px;right:24px;z-index:10">
+    <button class="btn-icon" title="User Guide" onclick="openModal()">&#8505;&#65039;</button>
+    <button class="btn-icon" id="themeBtn" title="Toggle theme" onclick="toggleTheme()">🌙</button>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>🔍 QR &amp; <em>Barcode Reader</em></h1>
+    <p>Decode QR codes and barcodes from images, clipboard, drag &amp; drop, or live camera — with built-in image enhancement for difficult scans</p>
+  </div>
+
+  <!-- Library error banner -->
+  <div class="lib-error" id="libError">
+    <span>⚠️</span>
+    <span>The ZXing scanning library failed to load. Check your internet connection and reload the page. The tool requires an active connection to load from CDN on first use.</span>
+  </div>
+
+  <div class="layout-grid">
+
+    <!-- ══════════════════ LEFT: INPUT ══════════════════ -->
+    <div>
+      <div class="panel-wrap">
+        <div class="panel-hdr">
+          <span class="panel-hdr-title">📥 Input Source</span>
+          <div style="margin-left:auto">
+            <div class="tab-pills">
+              <button class="tab-pill active" id="tabImage" onclick="switchTab('image')">🖼️ Image</button>
+              <button class="tab-pill" id="tabCamera" onclick="switchTab('camera')">📷 Camera</button>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+
+          <!-- ── IMAGE TAB ── -->
+          <div id="imageTab">
+            <!-- Drop zone -->
+            <div class="drop-zone" id="dropZone"
+              onclick="triggerFileInput()"
+              ondragover="onDragOver(event)"
+              ondragleave="onDragLeave(event)"
+              ondrop="onDrop(event)">
+              <div class="drop-zone-icon">📂</div>
+              <div class="drop-zone-title">Drop image here</div>
+              <div class="drop-zone-sub">Click to browse &nbsp;·&nbsp; Ctrl+V to paste</div>
+              <div class="drop-zone-hint">PNG, JPG, GIF, BMP, WebP, TIFF</div>
+            </div>
+            <input type="file" id="fileInput" style="display:none" accept="image/*" onchange="onFileInput(event)">
+
+            <!-- Canvas preview (hidden until image loaded) -->
+            <div class="preview-wrap" id="previewWrap">
+              <canvas id="previewCanvas"></canvas>
+            </div>
+
+            <!-- Controls when image loaded -->
+            <div class="preview-controls" id="previewControls">
+              <button class="btn-secondary btn-sm" onclick="triggerFileInput()">📁 Load New</button>
+              <button class="btn-secondary btn-sm" onclick="pasteFromClipboard()">📋 Paste</button>
+              <button class="btn-danger btn-sm" onclick="clearImage()">🗑️ Clear</button>
+              <button class="btn-primary btn-sm" style="margin-left:auto" onclick="scanNow()">🔍 Scan Now</button>
+            </div>
+
+            <!-- Buttons when no image -->
+            <div class="input-btn-row" id="inputBtns">
+              <button class="btn-secondary" onclick="triggerFileInput()">📁 Load Image</button>
+              <button class="btn-secondary" onclick="pasteFromClipboard()">📋 Paste from Clipboard</button>
+            </div>
+
+            <!-- Scan in progress indicator -->
+            <div class="scan-indicator" id="scanIndicator">
+              <div class="scan-dot"></div>
+              Scanning image…
+            </div>
+          </div>
+
+          <!-- ── CAMERA TAB ── -->
+          <div class="camera-section" id="cameraTab">
+            <div class="camera-controls-row">
+              <select class="camera-select" id="cameraSelect" onchange="onCameraChange()" disabled>
+                <option>No cameras detected</option>
+              </select>
+              <button class="btn-primary" id="startCamBtn" onclick="startCamera()">▶ Start Camera</button>
+              <button class="btn-danger" id="stopCamBtn" onclick="stopCamera()" style="display:none">■ Stop</button>
+              <span class="cam-badge" id="camBadge"><span class="cam-badge-dot"></span>Inactive</span>
+            </div>
+            <div class="video-wrap" id="videoWrap">
+              <div id="camReader"></div>
+              <div class="cam-highlight" id="camHighlight"></div>
+              <div class="camera-placeholder" id="camPlaceholder">
+                <div class="camera-placeholder-icon">📷</div>
+                <div style="font-size:.8rem">Click "Start Camera" to scan in real time</div>
+              </div>
+            </div>
+            <div class="camera-status" id="camStatus">Camera not started</div>
+            <!-- Inline result shown when code is detected -->
+            <div class="cam-result-card" id="camResultCard" style="display:none">
+              <div class="cam-result-row">
+                <span id="camResultBadge" class="result-badge badge-qr">QR Code</span>
+                <button class="btn-secondary btn-sm" onclick="clearCameraResult()">✕ Clear</button>
+              </div>
+              <div class="cam-result-value" id="camResultValue"></div>
+              <div class="cam-capture-wrap" id="camCaptureWrap" style="display:none">
+                <img class="cam-capture-img" id="camCaptureImg" src="" alt="Captured frame">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════ RIGHT: ENHANCE + RESULT ══════════════════ -->
+    <div>
+
+      <!-- Enhancement Panel (shown when image loaded) -->
+      <div class="panel-wrap" id="enhPanel" style="display:none">
+        <div class="panel-hdr">
+          <span class="panel-hdr-title">🎛️ Image Enhancement</span>
+          <button class="btn-secondary btn-sm" style="margin-left:auto" onclick="resetEnhancements()">↺ Reset</button>
+        </div>
+        <div class="panel-body">
+          <div class="enh-row">
+            <span class="enh-label">Brightness</span>
+            <div class="enh-control">
+              <input type="range" class="enh-range" id="rBright" min="10" max="300" value="100"
+                oninput="onEnhRange('brightness',this.value,'vBright','%')">
+              <span class="enh-val" id="vBright">100%</span>
+            </div>
+          </div>
+          <div class="enh-row">
+            <span class="enh-label">Contrast</span>
+            <div class="enh-control">
+              <input type="range" class="enh-range" id="rContrast" min="10" max="300" value="100"
+                oninput="onEnhRange('contrast',this.value,'vContrast','%')">
+              <span class="enh-val" id="vContrast">100%</span>
+            </div>
+          </div>
+          <div class="enh-row">
+            <span class="enh-label">Binarize</span>
+            <div class="enh-control">
+              <input type="range" class="enh-range" id="rThresh" min="0" max="255" value="0"
+                oninput="onEnhRange('threshold',this.value,'vThresh','')">
+              <span class="enh-val" id="vThresh">Off</span>
+            </div>
+          </div>
+          <div class="enh-row">
+            <span class="enh-label">Grayscale</span>
+            <div class="enh-control">
+              <button class="toggle-switch" id="tGray" onclick="onEnhToggle('grayscale','tGray')" title="Toggle grayscale"></button>
+            </div>
+          </div>
+          <div class="enh-row">
+            <span class="enh-label">Invert</span>
+            <div class="enh-control">
+              <button class="toggle-switch" id="tInvert" onclick="onEnhToggle('invert','tInvert')" title="Toggle invert"></button>
+            </div>
+          </div>
+          <div class="enh-row">
+            <span class="enh-label">Sharpen</span>
+            <div class="enh-control">
+              <button class="toggle-switch" id="tSharpen" onclick="onEnhToggle('sharpen','tSharpen')" title="Toggle sharpen"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Panel -->
+      <div class="panel-wrap">
+        <div class="panel-hdr">
+          <span class="panel-hdr-title">📊 Decoded Result</span>
+          <div id="resultStatusDot" style="margin-left:auto;width:8px;height:8px;border-radius:50%;background:var(--border);transition:background var(--tr)"></div>
+        </div>
+        <div class="panel-body">
+
+          <!-- Empty state -->
+          <div class="result-empty" id="resultEmpty">
+            <div class="result-empty-icon">🔎</div>
+            <p>Load an image or start the camera<br>to decode QR codes and barcodes</p>
+          </div>
+
+          <!-- Decoded result -->
+          <div class="result-card" id="resultCard">
+            <div id="resultBadge" class="result-badge badge-qr">QR Code</div>
+            <div class="result-meta" id="resultMeta"></div>
+            <div class="result-data" id="resultData"></div>
+            <div class="result-actions">
+              <button class="btn-primary btn-sm" onclick="copyResult()">📋 Copy</button>
+              <button class="btn-secondary btn-sm" id="openUrlBtn" style="display:none" onclick="openUrl()">🌐 Open URL</button>
+            </div>
+          </div>
+
+          <!-- Error message -->
+          <div class="err-box" id="errBox">
+            <span class="err-icon">⚠️</span>
+            <span id="errText"></span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════ USER GUIDE MODAL ══════════════════ -->
+<div id="infoModal" class="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">&times;</span>
+    <div class="modal-inner">
+      <h2>🔍 QR &amp; Barcode Reader — User Guide</h2>
+
+      <h3>What is this tool?</h3>
+      <p>A fully local, privacy-first QR code and barcode reader that runs entirely in your browser. No images or data are ever uploaded to any server — all processing happens on your device. It supports a wide range of code formats and includes image enhancement features to improve detection on difficult images.</p>
+
+      <h3>Why is it helpful?</h3>
+      <div class="use-case">
+        <h4>🔗 Inspect QR codes before scanning with your phone</h4>
+        <p>Paste a screenshot or image to reveal the URL or data hidden in a QR code — useful for security checks before visiting unknown links.</p>
+      </div>
+      <div class="use-case">
+        <h4>📦 Product &amp; inventory barcodes</h4>
+        <p>Read product barcodes (EAN-13, Code 128, UPC-A) from photos or screenshots for inventory management, part identification, or data entry without a physical barcode scanner.</p>
+      </div>
+      <div class="use-case">
+        <h4>🤖 UiPath document automation</h4>
+        <p>Extract data from barcodes present in document screenshots or captured images within UiPath automation workflows — paste the image directly to get the encoded value.</p>
+      </div>
+      <div class="use-case">
+        <h4>📷 Live scanning station</h4>
+        <p>Use your webcam or document camera as a real-time barcode scanner. Useful for quick lookups during physical inventory counts or conference check-ins.</p>
+      </div>
+
+      <h3>How to use</h3>
+
+      <h4>Option 1 — Load an image file</h4>
+      <ul>
+        <li>Click the drop zone or the <strong>Load Image</strong> button to open a file picker</li>
+        <li>Select any image (PNG, JPG, GIF, BMP, WebP, TIFF)</li>
+        <li>The tool scans automatically and shows the result in the right panel</li>
+      </ul>
+
+      <h4>Option 2 — Paste from clipboard (Ctrl+V)</h4>
+      <ul>
+        <li>Copy an image to your clipboard: <code>PrtScn</code>, Snipping Tool, right-click → Copy Image, or copy from a web page</li>
+        <li>Press <strong>Ctrl+V</strong> anywhere on the page — the image will be loaded and scanned instantly</li>
+        <li>Alternatively, click <strong>Paste from Clipboard</strong></li>
+      </ul>
+
+      <h4>Option 3 — Drag &amp; Drop</h4>
+      <ul>
+        <li>Drag any image file from File Explorer and drop it onto the drop zone</li>
+      </ul>
+
+      <h4>Option 4 — Live Camera</h4>
+      <ul>
+        <li>Click the <strong>Camera</strong> tab at the top of the input panel</li>
+        <li>Click <strong>Start Camera</strong> — the browser will ask for camera permission. Allow it</li>
+        <li>If you have multiple cameras (built-in webcam, USB camera, document scanner), select the desired one from the dropdown</li>
+        <li>Point the camera at a QR code or barcode — it decodes in real time, continuously</li>
+        <li>The last detected code is always shown in the result panel</li>
+        <li>Click <strong>Stop</strong> when done to release the camera</li>
+      </ul>
+
+      <h3>Image Enhancement</h3>
+      <p>The enhancement panel appears automatically after loading an image. If a code is not detected, try these adjustments — the image re-scans automatically after each change:</p>
+      <ul>
+        <li><strong>Brightness</strong> — raise for dark images, lower for overexposed/washed-out images</li>
+        <li><strong>Contrast</strong> — increase to make the code stand out from its background (try 150–200%)</li>
+        <li><strong>Binarize (threshold)</strong> — converts the image to pure black &amp; white at a cutoff value. This is the most effective enhancement for QR codes. Try values between <code>100</code> and <code>160</code></li>
+        <li><strong>Grayscale</strong> — removes color to reduce noise — often the first thing to try</li>
+        <li><strong>Invert</strong> — swaps black and white — useful for light-on-dark or negative codes</li>
+        <li><strong>Sharpen</strong> — applies a sharpening convolution filter — helpful for blurry or low-resolution images</li>
+      </ul>
+      <p>Click <strong>Scan Now</strong> to force an immediate re-scan without waiting for the debounce delay. Click <strong>Reset</strong> to undo all enhancements.</p>
+
+      <h3>Supported code formats</h3>
+      <h4>2D codes:</h4>
+      <p><code>QR Code</code> <code>Data Matrix</code> <code>PDF-417</code> <code>Aztec</code> <code>MaxiCode</code></p>
+      <h4>1D barcodes:</h4>
+      <p><code>Code 128</code> <code>Code 39</code> <code>Code 93</code> <code>EAN-13</code> <code>EAN-8</code> <code>UPC-A</code> <code>UPC-E</code> <code>Interleaved 2/5 (ITF)</code> <code>Codabar</code> <code>RSS-14</code> <code>RSS Expanded</code></p>
+
+      <h3>Troubleshooting</h3>
+      <div class="tip-box"><p>💡 <strong>Quick fix recipe:</strong> Enable <strong>Grayscale</strong> → increase <strong>Contrast</strong> to 180% → set <strong>Binarize</strong> to 130. This resolves the majority of difficult scans.</p></div>
+      <ul>
+        <li><strong>"No QR or barcode detected":</strong> Try the quick fix recipe above. Also check that the entire code is visible and not cut off</li>
+        <li><strong>Blurry image:</strong> Enable <strong>Sharpen</strong>, then increase <strong>Contrast</strong></li>
+        <li><strong>Dark or underexposed image:</strong> Increase <strong>Brightness</strong> to 150–200%</li>
+        <li><strong>White code on dark background:</strong> Enable <strong>Invert</strong></li>
+        <li><strong>Noisy/colorful background:</strong> Enable <strong>Grayscale</strong>, then <strong>Binarize</strong></li>
+        <li><strong>Small barcode in large image:</strong> Crop the image to just the barcode area before loading</li>
+        <li><strong>Camera permission denied:</strong> Go to your browser's site settings, find this page, and allow camera access, then reload</li>
+        <li><strong>Clipboard paste not working:</strong> Use <strong>Ctrl+V</strong> instead of the button. Clipboard API requires HTTPS or localhost in some browsers</li>
+        <li><strong>Library not loading:</strong> The tool requires an internet connection on first use to load the ZXing decoder library from CDN</li>
+      </ul>
+
+      <h3>Privacy</h3>
+      <p>This tool runs <strong>entirely in your browser</strong>. No images, camera frames, or decoded data are transmitted to any external server. Your data never leaves your device.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+// ─────────────────────────────────────────────
+// THEME
+// ─────────────────────────────────────────────
+let isDark = true;
+function toggleTheme() {
+  isDark = !isDark;
+  document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  document.getElementById('themeBtn').textContent = isDark ? '🌙' : '☀️';
+}
+
+// ─────────────────────────────────────────────
+// MODAL
+// ─────────────────────────────────────────────
+function openModal() { document.getElementById('infoModal').style.display = 'block'; }
+function closeModal() { document.getElementById('infoModal').style.display = 'none'; }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ─────────────────────────────────────────────
+// ZXING INIT
+// ─────────────────────────────────────────────
+let codeReader = null;
+let zxingOk = false;
+let cameraControls = false;
+let html5QrCode    = null;
+let lastCamText    = '';
+let lastCamTime    = 0;
+
+(function initZXing() {
+  try {
+    if (typeof ZXing === 'undefined') throw new Error('ZXing global not found');
+    const hints = new Map();
+    hints.set(ZXing.DecodeHintType.TRY_HARDER, true);
+    codeReader = new ZXing.BrowserMultiFormatReader(hints);
+    zxingOk = true;
+  } catch (e) {
+    document.getElementById('libError').classList.add('show');
+    console.error('ZXing init failed:', e);
+  }
+})();
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+let currentTab = 'image';   // 'image' | 'camera'
+let originalImg = null;     // HTMLImageElement with original image
+let lastResult = null;
+let debounceTimer = null;
+
+const enh = { brightness: 100, contrast: 100, threshold: 0, grayscale: false, invert: false, sharpen: false };
+
+// ─────────────────────────────────────────────
+// ELEMENT REFS
+// ─────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+const dropZone      = $('dropZone');
+const fileInput     = $('fileInput');
+const previewWrap   = $('previewWrap');
+const previewCanvas = $('previewCanvas');
+const previewCtrl   = $('previewControls');
+const inputBtns     = $('inputBtns');
+const scanIndicator = $('scanIndicator');
+const enhPanel      = $('enhPanel');
+const resultEmpty   = $('resultEmpty');
+const resultCard    = $('resultCard');
+const resultBadge   = $('resultBadge');
+const resultMeta    = $('resultMeta');
+const resultData    = $('resultData');
+const errBox        = $('errBox');
+const errText       = $('errText');
+const statusDot     = $('resultStatusDot');
+const cameraSelect  = $('cameraSelect');
+const startCamBtn   = $('startCamBtn');
+const stopCamBtn    = $('stopCamBtn');
+const camPlaceholder= $('camPlaceholder');
+const camStatus     = $('camStatus');
+const camBadge      = $('camBadge');
+
+function getCamVideoEl() { return document.querySelector('#camReader video'); }
+
+// ─────────────────────────────────────────────
+// TABS
+// ─────────────────────────────────────────────
+function switchTab(tab) {
+  currentTab = tab;
+  $('tabImage').classList.toggle('active', tab === 'image');
+  $('tabCamera').classList.toggle('active', tab === 'camera');
+  $('imageTab').style.display  = tab === 'image'  ? 'block' : 'none';
+  $('cameraTab').style.display = tab === 'camera' ? 'block' : 'none';
+
+  if (tab === 'camera') {
+    enhPanel.style.display = 'none';
+    clearError();
+    if (!cameraControls) {
+      camStatus.textContent = 'Click "Start Camera" to begin scanning';
+      camStatus.className   = 'camera-status';
+    }
+  } else {
+    haltCamera();
+    // Restore enhancement panel if image is loaded
+    if (originalImg) enhPanel.style.display = 'block';
+  }
+}
+
+// ─────────────────────────────────────────────
+// FILE / DRAG / PASTE INPUT
+// ─────────────────────────────────────────────
+function triggerFileInput() { fileInput.click(); }
+
+function onFileInput(e) {
+  const f = e.target.files[0];
+  if (f) loadBlob(f);
+  e.target.value = '';
+}
+
+function onDragOver(e) { e.preventDefault(); dropZone.classList.add('dragover'); }
+function onDragLeave()  { dropZone.classList.remove('dragover'); }
+function onDrop(e) {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) {
+    loadBlob(f);
+  } else {
+    showError('Please drop an image file (PNG, JPG, GIF, BMP, WebP, TIFF).');
+  }
+}
+
+// Ctrl+V anywhere on page
+document.addEventListener('paste', e => {
+  if (currentTab !== 'image') return;
+  const items = e.clipboardData?.items || [];
+  for (const item of items) {
+    if (item.type.startsWith('image/')) {
+      const blob = item.getAsFile();
+      if (blob) { loadBlob(blob); return; }
+    }
+  }
+});
+
+// Prevent browser navigating to dropped file outside drop zone
+document.addEventListener('dragover', e => e.preventDefault());
+document.addEventListener('drop', e => e.preventDefault());
+
+async function pasteFromClipboard() {
+  try {
+    if (navigator.clipboard && navigator.clipboard.read) {
+      const items = await navigator.clipboard.read();
+      for (const item of items) {
+        for (const type of item.types) {
+          if (type.startsWith('image/')) {
+            const blob = await item.getType(type);
+            loadBlob(blob);
+            return;
+          }
+        }
+      }
+      showError('No image found in clipboard. Copy an image first, or use Ctrl+V.');
+    } else {
+      showError('Clipboard button requires browser clipboard permission. Use Ctrl+V to paste.');
+    }
+  } catch (err) {
+    if (err.name === 'NotAllowedError') {
+      showError('Clipboard access denied. Use Ctrl+V to paste instead.');
+    } else {
+      showError('Could not read clipboard: ' + (err.message || err));
+    }
+  }
+}
+
+// ─────────────────────────────────────────────
+// IMAGE LOADING
+// ─────────────────────────────────────────────
+function loadBlob(blob) {
+  const url = URL.createObjectURL(blob);
+  const img = new Image();
+  img.onload = () => {
+    originalImg = img;
+    showImageUI();
+    resetEnhancements(false);  // reset without triggering scan (we'll scan below)
+    applyAndScan();
+  };
+  img.onerror = () => {
+    showError('Could not load the image. The file may be corrupted or an unsupported format.');
+    URL.revokeObjectURL(url);
+  };
+  img.src = url;
+}
+
+function showImageUI() {
+  dropZone.style.display   = 'none';
+  inputBtns.style.display  = 'none';
+  previewWrap.style.display = 'block';
+  previewCtrl.style.display = 'flex';
+  enhPanel.style.display    = 'block';
+  clearError();
+  clearResult();
+}
+
+function clearImage() {
+  originalImg = null;
+  dropZone.style.display    = 'flex';
+  inputBtns.style.display   = 'flex';
+  previewWrap.style.display = 'none';
+  previewCtrl.style.display = 'none';
+  enhPanel.style.display    = 'none';
+  previewCanvas.width = 0;
+  previewCanvas.height = 0;
+  clearResult();
+  clearError();
+  resetEnhancements(false);
+}
+
+// ─────────────────────────────────────────────
+// ENHANCEMENT ENGINE
+// ─────────────────────────────────────────────
+function onEnhRange(key, val, valId, suffix) {
+  enh[key] = Number(val);
+  const label = (key === 'threshold' && enh.threshold === 0) ? 'Off' : val + suffix;
+  $(valId).textContent = label;
+  scheduleApply();
+}
+
+function onEnhToggle(key, btnId) {
+  enh[key] = !enh[key];
+  $(btnId).classList.toggle('on', enh[key]);
+  scheduleApply();
+}
+
+function resetEnhancements(andScan = true) {
+  enh.brightness = 100; $('rBright').value   = 100; $('vBright').textContent   = '100%';
+  enh.contrast   = 100; $('rContrast').value = 100; $('vContrast').textContent = '100%';
+  enh.threshold  = 0;   $('rThresh').value   = 0;   $('vThresh').textContent   = 'Off';
+  enh.grayscale = false; $('tGray').classList.remove('on');
+  enh.invert    = false; $('tInvert').classList.remove('on');
+  enh.sharpen   = false; $('tSharpen').classList.remove('on');
+  if (andScan) scheduleApply();
+}
+
+function scheduleApply() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(applyAndScan, 420);
+}
+
+function buildFilter() {
+  const parts = [];
+  if (enh.brightness !== 100) parts.push(`brightness(${(enh.brightness / 100).toFixed(2)})`);
+  if (enh.contrast   !== 100) parts.push(`contrast(${(enh.contrast / 100).toFixed(2)})`);
+  if (enh.grayscale) parts.push('grayscale(1)');
+  if (enh.invert)    parts.push('invert(1)');
+  return parts.join(' ') || 'none';
+}
+
+function applyAndScan() {
+  if (!originalImg) return;
+  const w = originalImg.naturalWidth;
+  const h = originalImg.naturalHeight;
+
+  // ── Offscreen canvas for pixel processing ──
+  const offscreen = document.createElement('canvas');
+  offscreen.width = w;
+  offscreen.height = h;
+  const ctx = offscreen.getContext('2d');
+
+  // Apply CSS filter (brightness, contrast, grayscale, invert)
+  const f = buildFilter();
+  if (f !== 'none') ctx.filter = f;
+  ctx.drawImage(originalImg, 0, 0, w, h);
+  ctx.filter = 'none';
+
+  // Apply threshold (binarize)
+  if (enh.threshold > 0) {
+    const id = ctx.getImageData(0, 0, w, h);
+    const d = id.data;
+    for (let i = 0; i < d.length; i += 4) {
+      const lum = 0.299 * d[i] + 0.587 * d[i+1] + 0.114 * d[i+2];
+      const v = lum >= enh.threshold ? 255 : 0;
+      d[i] = d[i+1] = d[i+2] = v;
+    }
+    ctx.putImageData(id, 0, 0);
+  }
+
+  // Apply sharpen via 3×3 convolution kernel
+  if (enh.sharpen) {
+    const src = ctx.getImageData(0, 0, w, h);
+    const dst = new ImageData(w, h);
+    const s = src.data, d = dst.data;
+    const K = [-1,-1,-1,-1,9,-1,-1,-1,-1];
+    for (let y = 0; y < h; y++) {
+      for (let x = 0; x < w; x++) {
+        let r=0, g=0, b=0;
+        for (let dy = -1; dy <= 1; dy++) {
+          for (let dx = -1; dx <= 1; dx++) {
+            const sy = Math.min(h-1, Math.max(0, y+dy));
+            const sx = Math.min(w-1, Math.max(0, x+dx));
+            const o  = (sy*w+sx)*4;
+            const k  = K[(dy+1)*3+(dx+1)];
+            r += s[o]*k; g += s[o+1]*k; b += s[o+2]*k;
+          }
+        }
+        const o = (y*w+x)*4;
+        d[o]   = Math.min(255, Math.max(0, r));
+        d[o+1] = Math.min(255, Math.max(0, g));
+        d[o+2] = Math.min(255, Math.max(0, b));
+        d[o+3] = s[o+3];
+      }
+    }
+    ctx.putImageData(dst, 0, 0);
+  }
+
+  // ── Update visible canvas ──
+  previewCanvas.width  = w;
+  previewCanvas.height = h;
+  const dispCtx = previewCanvas.getContext('2d');
+  dispCtx.drawImage(offscreen, 0, 0);
+  fitCanvas();
+
+  // ── Scan ──
+  doScan(offscreen);
+}
+
+function fitCanvas() {
+  // Make canvas scale to fit the preview area while keeping aspect ratio
+  const maxW = previewWrap.clientWidth - 2;
+  const maxH = 420;
+  const w = previewCanvas.width;
+  const h = previewCanvas.height;
+  if (!w || !h) return;
+  const ratio = Math.min(maxW / w, maxH / h, 1);
+  previewCanvas.style.width  = Math.round(w * ratio) + 'px';
+  previewCanvas.style.height = Math.round(h * ratio) + 'px';
+}
+
+function scanNow() {
+  clearTimeout(debounceTimer);
+  applyAndScan();
+}
+
+// ─────────────────────────────────────────────
+// DECODE (static image)
+// ─────────────────────────────────────────────
+async function doScan(canvas) {
+  if (!zxingOk) return;
+  setScanning(true);
+  clearError();
+
+  try {
+    // Convert canvas → data URL → decode
+    const dataUrl = canvas.toDataURL('image/png');
+    const tempImg = new Image();
+    await new Promise((resolve, reject) => {
+      tempImg.onload  = resolve;
+      tempImg.onerror = reject;
+      tempImg.src = dataUrl;
+    });
+    const result = await codeReader.decodeFromImageElement(tempImg);
+    showResult(result);
+  } catch (err) {
+    if (isNotFoundError(err)) {
+      showError('No QR code or barcode detected in this image.\nTry adjusting enhancement settings — enable Grayscale, increase Contrast, or use Binarize (threshold ~130).');
+    } else {
+      showError('Scan error: ' + (err?.message || String(err)));
+    }
+  } finally {
+    setScanning(false);
+  }
+}
+
+function setScanning(on) {
+  scanIndicator.classList.toggle('show', on);
+}
+
+function isNotFoundError(err) {
+  return err?.name === 'NotFoundException'
+    || err?.constructor?.name === 'NotFoundException'
+    || (typeof ZXing !== 'undefined' && ZXing.NotFoundException && err instanceof ZXing.NotFoundException)
+    || /no.*multiformat|no.*reader|not.*found/i.test(err?.message || '');
+}
+
+// ─────────────────────────────────────────────
+// CAMERA HIGHLIGHT (shown on detection)
+// ─────────────────────────────────────────────
+let camHighlightTimer = null;
+
+function showCamHighlight(cornerPoints) {
+  const hl  = $('camHighlight');
+  const wrap = $('videoWrap');
+  if (!hl || !wrap) return;
+
+  const wrapRect = wrap.getBoundingClientRect();
+  const vid      = getCamVideoEl();
+
+  if (cornerPoints && cornerPoints.length >= 4 && vid) {
+    const vidRect = vid.getBoundingClientRect();
+    const scaleX  = vidRect.width  / (vid.videoWidth  || vidRect.width);
+    const scaleY  = vidRect.height / (vid.videoHeight || vidRect.height);
+    const xs = cornerPoints.map(p => p.x * scaleX + (vidRect.left - wrapRect.left));
+    const ys = cornerPoints.map(p => p.y * scaleY + (vidRect.top  - wrapRect.top));
+    const minX = Math.max(0, Math.min(...xs));
+    const minY = Math.max(0, Math.min(...ys));
+    const maxX = Math.min(wrapRect.width,  Math.max(...xs));
+    const maxY = Math.min(wrapRect.height, Math.max(...ys));
+    hl.style.left   = minX + 'px';
+    hl.style.top    = minY + 'px';
+    hl.style.width  = (maxX - minX) + 'px';
+    hl.style.height = (maxY - minY) + 'px';
+  } else {
+    // Fallback: centred box
+    hl.style.left   = '20%';  hl.style.top    = '25%';
+    hl.style.width  = '60%';  hl.style.height = '50%';
+  }
+
+  hl.classList.remove('show');
+  void hl.offsetWidth;   // force reflow to restart animation
+  hl.classList.add('show');
+
+  clearTimeout(camHighlightTimer);
+  camHighlightTimer = setTimeout(() => hl.classList.remove('show'), 2000);
+}
+
+function setCamBadge(active) {
+  camBadge.textContent = '';
+  const dot = document.createElement('span');
+  dot.className = 'cam-badge-dot';
+  camBadge.appendChild(dot);
+  camBadge.appendChild(document.createTextNode(active ? ' Active' : ' Inactive'));
+  camBadge.classList.toggle('active', active);
+}
+
+// ─────────────────────────────────────────────
+// CAMERA  (powered by html5-qrcode@2.3.8)
+// ─────────────────────────────────────────────
+
+// Map html5-qrcode format names → FORMAT_NAMES indices (ZXing-compatible)
+const HTML5QR_FMT = {
+  QR_CODE:11, AZTEC:0, CODABAR:1, CODE_39:2, CODE_93:3, CODE_128:4,
+  DATA_MATRIX:5, EAN_8:6, EAN_13:7, ITF:8, MAXICODE:9, PDF_417:10,
+  RSS_14:12, RSS_EXPANDED:13, UPC_A:14, UPC_E:15, UPC_EAN_EXTENSION:16
+};
+
+async function startCamera() {
+  startCamBtn.style.display    = 'none';
+  stopCamBtn.style.display     = 'inline-flex';
+  camPlaceholder.style.display = 'none';
+  camStatus.textContent = 'Starting camera…';
+  camStatus.className   = 'camera-status';
+  clearResult();
+
+  try {
+    await haltCamera();
+
+    html5QrCode = new Html5Qrcode('camReader', { verbose: false });
+
+    const devices = await Html5Qrcode.getCameras();
+    if (!devices || !devices.length) throw new Error('No cameras found on this device.');
+
+    cameraSelect.innerHTML = devices.map((d, i) =>
+      `<option value="${d.id}">${d.label || 'Camera ' + (i + 1)}</option>`
+    ).join('');
+    cameraSelect.disabled = false;
+
+    let deviceId = cameraSelect.value;
+    if (!deviceId || !devices.find(d => d.id === deviceId)) {
+      const back = devices.find(d => /back|rear|environment/i.test(d.label || ''));
+      deviceId = back ? back.id : devices[0].id;
+      cameraSelect.value = deviceId;
+    }
+
+    await startHtml5QrWithDevice(deviceId);
+
+  } catch (err) {
+    const msg = /permission|denied|notallowed/i.test(err?.message || err?.name || '')
+      ? 'Camera access denied. Allow camera permission in your browser settings.'
+      : 'Failed to start camera: ' + (err?.message || err);
+    camStatus.textContent    = msg;
+    camStatus.className      = 'camera-status err';
+    startCamBtn.style.display = 'inline-flex';
+    stopCamBtn.style.display  = 'none';
+    camPlaceholder.style.display = 'block';
+    setCamBadge(false);
+  }
+}
+
+async function startHtml5QrWithDevice(deviceId) {
+  const qrboxFn = (w, h) => ({
+    width:  Math.round(Math.min(w, h) * 0.7),
+    height: Math.round(Math.min(w, h) * 0.6)
+  });
+
+  const attempts = [
+    { cam: { deviceId: { exact: deviceId } } },
+    { cam: { deviceId: deviceId } },
+    { cam: { facingMode: 'environment' } },
+    { cam: { facingMode: 'user' } },
+  ];
+
+  let lastErr;
+  for (const attempt of attempts) {
+    try {
+      await html5QrCode.start(
+        attempt.cam,
+        { fps: 15, qrbox: qrboxFn, disableFlip: false },
+        onCameraCodeDetected,
+        () => {}
+      );
+      cameraControls = true;
+      camStatus.textContent = 'Scanning… point at a QR code or barcode';
+      camStatus.className   = 'camera-status scanning';
+      setCamBadge(true);
+      applyContinuousAutofocus();   // best-effort — fails silently if unsupported
+      return;
+    } catch (err) {
+      lastErr = err;
+      if (/notallowed|permission/i.test(err?.name || err?.message || '')) throw err;
+      try { await html5QrCode.stop(); } catch (_) {}
+    }
+  }
+  throw lastErr;
+}
+
+async function applyContinuousAutofocus() {
+  // Strategy 1: html5-qrcode's own applyVideoConstraints wrapper
+  try {
+    if (typeof html5QrCode?.applyVideoConstraints === 'function') {
+      await html5QrCode.applyVideoConstraints({
+        advanced: [{ focusMode: 'continuous' }]
+      });
+      return;
+    }
+  } catch (_) {}
+
+  // Strategy 2: reach the underlying MediaStreamTrack directly
+  try {
+    const vid = getCamVideoEl();
+    const track = vid?.srcObject?.getVideoTracks?.()[0];
+    if (!track) return;
+    const caps = track.getCapabilities?.();
+    if (caps?.focusMode?.includes?.('continuous')) {
+      await track.applyConstraints({ focusMode: 'continuous' });
+    }
+  } catch (_) {}
+}
+
+async function stopCamera() {
+  await haltCamera();
+  startCamBtn.style.display    = 'inline-flex';
+  stopCamBtn.style.display     = 'none';
+  camPlaceholder.style.display = 'block';
+  camStatus.textContent = 'Camera stopped.';
+  camStatus.className   = 'camera-status';
+}
+
+async function haltCamera() {
+  cameraControls = false;
+  setCamBadge(false);
+  clearTimeout(camHighlightTimer);
+  const hl = $('camHighlight');
+  if (hl) hl.classList.remove('show');
+  if (html5QrCode) {
+    try { await html5QrCode.stop(); } catch (_) {}
+    try { html5QrCode.clear(); } catch (_) {}
+    html5QrCode = null;
+  }
+}
+
+async function onCameraChange() {
+  if (!cameraControls) return;
+  const deviceId = cameraSelect.value;
+  if (!deviceId || !html5QrCode) return;
+  try {
+    await html5QrCode.stop();
+    await startHtml5QrWithDevice(deviceId);
+  } catch (err) {
+    camStatus.textContent = 'Camera switch failed: ' + (err?.message || err);
+    camStatus.className   = 'camera-status err';
+  }
+}
+
+function captureCurrentFrame() {
+  const vid = getCamVideoEl();
+  if (!vid || vid.readyState < 2 || !vid.videoWidth) return null;
+  const c = document.createElement('canvas');
+  c.width  = 220;
+  c.height = Math.round(vid.videoHeight * 220 / vid.videoWidth) || 80;
+  c.getContext('2d').drawImage(vid, 0, 0, c.width, c.height);
+  return c.toDataURL('image/png');
+}
+
+function onCameraCodeDetected(decodedText, decodedResult) {
+  // Debounce: skip if same value detected within 1.5 s
+  const now = Date.now();
+  if (decodedText === lastCamText && (now - lastCamTime) < 1500) return;
+  lastCamText = decodedText;
+  lastCamTime = now;
+
+  // Format
+  const fmtName = decodedResult?.result?.format?.formatName || '';
+  const fmtNum  = HTML5QR_FMT[fmtName] ?? -1;
+  const name    = FORMAT_NAMES[fmtNum] || (fmtName || 'Barcode / QR Code');
+  const badgeCls = QR_FORMATS.has(fmtNum) ? 'badge-qr' : F2D_FORMATS.has(fmtNum) ? 'badge-2d' : 'badge-1d';
+
+  // Detection highlight overlay
+  showCamHighlight(decodedResult?.result?.cornerPoints);
+
+  // Capture frame image
+  const frameImg = captureCurrentFrame();
+
+  // ── Inline camera result card ──
+  $('camResultBadge').textContent = name;
+  $('camResultBadge').className   = 'result-badge ' + badgeCls;
+  $('camResultValue').textContent = decodedText;
+  const captureWrap = $('camCaptureWrap');
+  const captureImg  = $('camCaptureImg');
+  if (frameImg) {
+    captureImg.src = frameImg;
+    captureWrap.style.display = 'flex';
+  } else {
+    captureWrap.style.display = 'none';
+  }
+  $('camResultCard').style.display = 'block';
+
+  // ── Right-panel result ──
+  const resultProxy = {
+    getText:          () => decodedText,
+    getBarcodeFormat: () => fmtNum,
+    getResultPoints:  () => null
+  };
+  lastResult = resultProxy;
+  resultEmpty.style.display = 'none';
+  resultCard.style.display  = 'block';
+  errBox.classList.remove('show');
+  resultBadge.textContent = name;
+  resultBadge.className   = 'result-badge ' + badgeCls;
+  resultMeta.textContent  = `Format: ${name}  ·  ${decodedText.length} char${decodedText.length !== 1 ? 's' : ''}`;
+  resultData.textContent  = decodedText;
+  statusDot.style.background = 'var(--green)';
+  $('openUrlBtn').style.display = /^https?:\/\//i.test(decodedText) ? 'inline-flex' : 'none';
+
+  camStatus.textContent = '✓ Code detected!';
+  camStatus.className   = 'camera-status found';
+  showToast('✓ ' + decodedText.substring(0, 45));
+  if (navigator.vibrate) navigator.vibrate(100);
+}
+
+function clearCameraResult() {
+  $('camResultCard').style.display  = 'none';
+  $('camCaptureWrap').style.display = 'none';
+  $('camCaptureImg').src            = '';
+  $('camResultValue').textContent   = '';
+  lastCamText = '';
+  clearResult();
+  if (cameraControls) {
+    camStatus.textContent = 'Scanning… point at a QR code or barcode';
+    camStatus.className   = 'camera-status scanning';
+  }
+}
+
+// ─────────────────────────────────────────────
+// RESULT DISPLAY
+// ─────────────────────────────────────────────
+const FORMAT_NAMES = {
+  0:'Aztec', 1:'Codabar', 2:'Code 39', 3:'Code 93', 4:'Code 128',
+  5:'Data Matrix', 6:'EAN-8', 7:'EAN-13', 8:'ITF',
+  9:'MaxiCode', 10:'PDF-417', 11:'QR Code', 12:'RSS-14',
+  13:'RSS Expanded', 14:'UPC-A', 15:'UPC-E', 16:'UPC/EAN Extension'
+};
+const QR_FORMATS  = new Set([11]);                     // QR Code
+const F2D_FORMATS = new Set([0, 5, 9, 10]);            // Aztec, DataMatrix, MaxiCode, PDF-417
+const F1D_FORMATS = new Set([1,2,3,4,6,7,8,12,13,14,15,16]);
+
+function showResult(result) {
+  lastResult = result;
+  const text   = result.getText();
+  const fmt    = result.getBarcodeFormat();
+  const fmtNum = (typeof fmt === 'number') ? fmt : (fmt?.valueOf?.() ?? -1);
+  const name   = FORMAT_NAMES[fmtNum] || (fmt?.toString?.() ?? 'Unknown');
+
+  resultEmpty.style.display = 'none';
+  resultCard.style.display  = 'block';
+  errBox.classList.remove('show');
+
+  // Badge
+  resultBadge.textContent = name;
+  resultBadge.className = 'result-badge ' + (
+    QR_FORMATS.has(fmtNum)  ? 'badge-qr'  :
+    F2D_FORMATS.has(fmtNum) ? 'badge-2d'  : 'badge-1d'
+  );
+
+  resultMeta.textContent = `Format: ${name}  ·  ${text.length} character${text.length !== 1 ? 's' : ''}`;
+  resultData.textContent = text;
+
+  // Status dot → green
+  statusDot.style.background = 'var(--green)';
+
+  // URL button
+  const isUrl = /^https?:\/\//i.test(text);
+  $('openUrlBtn').style.display = isUrl ? 'inline-flex' : 'none';
+}
+
+function clearResult() {
+  lastResult = null;
+  resultEmpty.style.display = 'block';
+  resultCard.style.display  = 'none';
+  errBox.classList.remove('show');
+  statusDot.style.background = 'var(--border)';
+}
+
+function showError(msg) {
+  resultEmpty.style.display = 'none';
+  resultCard.style.display  = 'none';
+  errBox.classList.add('show');
+  errText.textContent = msg;
+  statusDot.style.background = 'var(--red)';
+}
+
+function clearError() {
+  errBox.classList.remove('show');
+}
+
+// ─────────────────────────────────────────────
+// ACTIONS
+// ─────────────────────────────────────────────
+async function copyResult() {
+  if (!lastResult) return;
+  const text = lastResult.getText();
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (_) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+  showToast('✓ Copied to clipboard');
+}
+
+function openUrl() {
+  if (!lastResult) return;
+  const url = lastResult.getText();
+  if (/^https?:\/\//i.test(url)) window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+// ─────────────────────────────────────────────
+// TOAST
+// ─────────────────────────────────────────────
+let toastTimer = null;
+function showToast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// ─────────────────────────────────────────────
+// RESIZE handler (re-fit canvas)
+// ─────────────────────────────────────────────
+window.addEventListener('resize', () => { if (originalImg) fitCanvas(); });
+
+window.addEventListener('beforeunload', () => {
+  if (html5QrCode) html5QrCode.stop().catch(() => {});
+});
+</script>
+</body>
+</html>

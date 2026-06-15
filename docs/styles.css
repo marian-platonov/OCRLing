@@ -1,0 +1,514 @@
+/* styles.css */
+* {
+    box-sizing: border-box;
+}
+
+body
+{
+    font-family: "Helvetica", Times, Arial, sans-serif;
+    margin: 0 auto;
+	padding-top: 0px; /* Adjust this value based on the height of your navbar */
+	font-size: 12pt;
+    background-color: #f9f9f9;
+}
+
+
+header {
+    background: #333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+	font-size:larger;
+}
+
+
+h3 {
+      font-size: 1.0rem;
+      color: #f97316;
+      margin: 36px 0 12px;
+      padding-left: 10px;
+      border-left: 3px solid #f97316;
+    }
+/* nav */
+.nav-menu,.nav-menu ul,.nav-menu li,.nav-menu a { 
+	margin: 0; 
+	padding: 0; 
+	line-height: normal; 
+	list-style: none; 
+	display: block; 
+	position: relative; 
+	
+	
+	}
+.nav-menu ul { 
+	opacity: 0; 
+	position: absolute; 
+	top: 100%; 
+	left: -9999px; 
+	z-index: 999; 
+	-webkit-transition: opacity .3s; 
+	transition: opacity .3s; 
+	}
+.nav-menu li:hover > ul { 
+	left: 0; 
+	opacity: 1; 
+	z-index: 1000; 
+	}
+.nav-menu ul li:hover > ul { 
+	top: 0; 
+	left: 100%; 
+	}
+.nav-menu li { 
+	cursor: default; 
+	float: left; 
+	white-space: nowrap; 
+	}
+.nav-menu ul li { 
+	float: none; 
+	}
+
+/* sub width */
+.nav-menu ul {
+	min-width: 12em;
+	-webkit-box-shadow: 2px 2px 2px rgba(0,0,0,0.25);
+	box-shadow: 2px 2px 2px rgba(0,0,0,0.25); 
+	}
+
+/* center 
+.nav-center {
+	float: right;
+	right: 50%;
+	}
+.nav-center > li { 
+	left: 50%; 
+	}*/
+
+/* root */
+.nav-menu a {
+  padding: 0 10px;
+  color: white;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 40px;
+  text-decoration: none;
+}
+
+/* root: active */
+.nav-menu > li > .nav-active {
+	background-color: rgba(0,0,0,0.05); 
+	font-size: 16px;
+	}
+
+/* root: hover/persistence */
+.nav-menu a:hover,.nav-menu a:focus,.nav-menu li:hover a {
+  background: #449666;
+  color: white;
+  font-size: 16px;
+}
+
+/* 2 */
+.nav-menu li li a,.nav-menu li:hover li a {
+  padding: 8px 10px;
+  background: #555;
+  color: #FFF;
+  font-size: 12px;
+  line-height: normal;
+}
+
+/* 2: hover/persistence */
+.nav-menu li:hover li a:hover,.nav-menu li:hover li a:focus,.nav-menu li:hover li:hover a {
+  background: #449666;
+  font-size: 16px;
+}
+
+/* 3 */
+.nav-menu li:hover li:hover li a {
+  background: #555;
+  font-size: 12px;
+  
+}
+
+/* 3: hover/persistence */
+.nav-menu li:hover li:hover li a:hover,.nav-menu li:hover li:hover li a:focus,.nav-menu li:hover li:hover li:hover a {
+  background: #449666;
+  font-size: 16px;
+}
+
+/* 4 */
+.nav-menu li:hover li:hover li:hover li a {
+  background: #333;
+}
+
+/* 4: hover */
+.nav-menu li:hover li:hover li:hover li a:hover,.nav-menu li:hover li:hover li:hover li a:focus {
+  background: #222;
+}
+
+.nav-menu {
+  background-color: #333;
+  font-size: 12px;
+  color: white;
+  position: fixed; /* Keeps the nav-menu fixed at the top */
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Ensures the nav-menu stays on top of other elements */
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+.restartMessage {
+    position: absolute;
+    left: 10px; /* Adjust positioning as needed */
+    color: orange; /* Makes the text orange */
+    font-size: 14px; /* Adjusts text size */
+    font-weight: bold;
+    transform: translateY(-10%);
+}
+
+.restartMessage a {
+    color: orange; /* Makes the hyperlink orange */
+    text-decoration: none; /* Removes underline */
+}
+
+.restartMessage a:hover {
+    text-decoration: underline; /* Adds underline on hover */
+}
+
+
+.powershelCommandItem {
+    position: absolute;
+    right: 10px;
+    transform: translateY(-10%);
+}
+		
+h2 {
+    color: #333;
+}
+
+
+.responsive {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
+    transition: transform 0.25s ease;
+}
+
+/* Code block */
+    pre {
+      background: #292929;
+      border: 1px solid #333;
+      border-left: 3px solid #f97316;
+      border-radius: 4px;
+      padding: 14px 18px;
+      font-family: "Cascadia Code", "Consolas", monospace;
+      font-size: 0.88rem;
+      color: #a8d8ff;
+      overflow-x: auto;
+      margin: 14px 0;
+    }
+
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+.click-zoom input[type="checkbox"] {
+    display: none;
+}
+
+.click-zoom img {  
+    transition: transform 0.25s ease;
+    cursor: zoom-in;
+}
+
+.click-zoom input[type="checkbox"]:checked + img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+    cursor: zoom-out;
+    z-index: 1000;
+}
+
+
+
+/* info-box */
+    .info-box {
+      background: #252525;
+      border: 1px solid #444;
+      border-left: 4px solid #f97316;
+      border-radius: 4px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 0.92rem;
+      color: #c0c0c0;
+    }
+
+    .info-box strong { color: #f97316; }
+
+    .info-box-blue {
+      background: #1a2030;
+      border: 1px solid #2a3a55;
+      border-left: 4px solid #4a9eff;
+      border-radius: 4px;
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 0.92rem;
+      color: #c0c0c0;
+    }
+
+    .info-box-blue strong { color: #4a9eff; }
+	
+	.info-box-blue li::marker {
+      color: white;
+    }
+	
+
+.info-icon {
+	font-family: 'Segoe Fluent Icons';
+	color: #4287f5;
+	foreground: #FFFFFF;
+}
+
+li::marker {
+  color: black;
+}
+
+@media (max-width: 600px) {
+    nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+}
+
+
+.editor {
+  display: inline-grid;
+  grid-template-columns: 3em auto;
+  gap: 10px;
+  line-height: 21px;
+  background: rgb(241 242 244);
+  border-radius: 4px;
+  overflow-y: auto;
+  max-height: 450px;
+}
+
+
+.arrow {
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 2px;
+  vertical-align: middle;
+}
+
+.right {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
+.up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        #filters {
+            margin-bottom: 10px;
+        }
+
+thead {
+    background-color: #1E90FF; /* Blue background */
+    color: white; /* White text */
+    font-family: Arial, sans-serif;
+}
+
+th {
+    padding: 10px;
+    text-align: center;
+}
+
+.special-row-supported {
+    background-color: green; /* Red background */
+    color: white; /* White text */
+    font-family: Arial, sans-serif;
+}
+
+.special-row-supported a {
+    color: white; /* Ensures links are also white */
+
+}
+
+.special-row-out-of-support {
+    background-color: red; /* Red background */
+    color: white; /* White text */
+    font-family: Arial, sans-serif;
+}
+
+.special-row-out-of-support a {
+    color: white; /* Ensures links are also white */
+}
+
+.command-box {
+    width: 100%;
+    box-sizing: border-box; /* Ensures padding and border don't affect the width */
+    padding: 10px;
+    margin-top: 10px;
+}
+
+
+#helpButton {
+    position: absolute;
+    top: 50px;
+    right: 10px;
+    padding: 10px 15px;
+    font-size: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#helpButton:hover {
+    background-color: #0056b3;
+}
+
+.breadcrumb {
+	margin: 10px;
+	font-size: 14px;
+}
+
+.breadcrumb a {
+		text-decoration: none;
+}
+
+.command-value {
+    width: 100%; /* Fills the entire table cell */
+    box-sizing: border-box; /* Ensures padding does not exceed the cell */
+    padding: 5px;
+    font-size: 16px;
+}
+
+.error-highlight {
+        background-color: #ffcccc; /* Light red background */
+}
+	
+#regexButton {
+	transition-duration: 0.4s;
+	background-color: #008CBA;
+	text-align: center;
+	color: white;
+	border: none;
+	cursor: pointer;
+	padding: 10px 15px;
+	border-radius: 8px;
+}
+
+#regexButton:hover {
+	background-color: #3a43d6; 
+	border: none;
+	color: white;
+	border: none;
+	border-radius: 8px;
+	padding: 10px 15px;
+}
+
+#clearButton {
+	transition-duration: 0.4s;
+	background-color: #008CBA;
+	text-align: center;
+	color: white;
+	border: none;
+	cursor: pointer;
+	padding: 10px 15px;
+	border-radius: 8px;
+}
+
+#clearButton:hover {
+	background-color: #f32016; 
+	border: none;
+	color: white;
+	border: none;
+	border-radius: 8px;
+	padding: 10px 15px;
+}
+
+
+#sampleText, input { width: 100%; 
+	padding: 8px; 
+	margin: 10px 0; 
+	background-color: white; 
+}
+
+#generatedRegex, input { width: 100%; 
+	padding: 8px; 
+	margin: 10px 0; 
+	background-color: white; 
+}
+
+.feature-checkbox {
+    display: inline-block;
+    width: 20px; /* Adjust width as needed */
+}
+
+#searchContainer {
+    display: flex;
+    align-items: center;
+    justify-content: start; /* Ensures elements stay in the same row */
+    gap: 10px; /* Adds spacing between input and button */
+}
+
+#searchBox {
+    width: 400px; /* Adjust width to prevent it from taking the full row */
+    padding: 5px;
+}
+
+#searchButton {
+    padding: 5px 12px;
+    white-space: nowrap; /* Prevents resizing */
+}
+
+#cancelFilters {
+    white-space: nowrap; 
+    padding: 5px 10px;
+}
+
+
+.d-flex {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap; /* Prevent wrapping */
+    overflow: hidden; /* Ensure content stays within bounds */
+}

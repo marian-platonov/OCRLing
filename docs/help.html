@@ -1,0 +1,1247 @@
+<!DOCTYPE html> 
+<html lang='en-US' xml:lang='en-US'> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCRLing Documentation - Home</title>
+	<link rel="icon" href="images/app_logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+    <nav>
+      <ul class="nav-menu nav-center">
+        <li><a href="help.html">Home</a></li>
+		<li><a href="release_notes.html">Release Notes</a></li>
+		<li><a href="help.html#troubleshooting">Troubleshooting</a></li>
+      </ul>
+    </nav>
+</header>
+<section id="home">
+<div class="container">
+	<center><h1>OCRLing Documentation</h1></center>	
+        <div class="info-box">
+			<p style="text-align: left;  font-style: none">  <span class="info-icon">&#xf167; <i>Notes</i></span>
+			<br>This is a standalone OCR (Optical Character Recognition) tool in Python, leveraging Tesseract and Mistral AI to extract text from images. This tool identifies the languages in which the text is written and provides translation into multiple languages using Google Translate. It also includes a browser-based <b>QR &amp; Barcode Reader</b> for decoding QR codes and barcodes from image files or a live camera feed.
+			<br>For <b>Support engineers</b>, this tool significantly improves efficiency by automating the extraction and translation of error trace details from images submitted by customers. Instead of manually transcribing or interpreting text, engineers can quickly process images and work with the extracted data. This ensures faster troubleshooting and enhances customer support.
+			<br>For <b>customers/users</b>, this tool helps bridge language barriers. If an error message appears in an unfamiliar language, the tool provides immediate translation, enabling a quicker understanding of technical issues and facilitating smoother communication with support teams.
+			<br>By eliminating tedious manual tasks and enhancing language accessibility, this OCR tool streamlines workflows, improves accuracy, and accelerates case resolution.
+			<br> <br> 
+			This tool was built using <a href="https://www.python.org/downloads/release/python-3139/" style="color:#4a9eff;text-decoration:none;" target="_blank" rel="noopener noreferrer">Python 3.13.9 x64 bit</a> using <a href="https://docs.python.org/3.10/library/tkinter.html" style="color:#4a9eff;text-decoration:none;" target="_blank" rel="noopener noreferrer">tkinter</a> and <a href="https://customtkinter.tomschimansky.com/" style="color:#4a9eff;text-decoration:none;" target="_blank" rel="noopener noreferrer">customtkinter</a> UI-libraries. 
+			<br><br>
+			The <a href="release_notes.html#logging_feature" style="color:#4a9eff;text-decoration:none;">logging feature</a> was built using <a href="https://github.com/Delgan/loguru?tab=readme-ov-file" style="color:#4a9eff;text-decoration:none;" target="_blank" rel="noopener noreferrer">Loguru</a> library. 
+			<br><br>
+			The language detection feature was built using <a href="https://github.com/Mimino666/langdetect" style="color:#4a9eff;text-decoration:none;" target="_blank" rel="noopener noreferrer">langdetect</a> library.
+			<br><br> 
+			The majority of icons were retrieved from <a href="https://icons8.com/icons/set" style="color:#4a9eff;text-decoration:none;" target="_blank" rel="noopener noreferrer">Icons8.</a>
+			<br><br> 
+			You don't need to install Python or other libraries on your machine in order to run the OCRLing.exe application.
+			<br><br> 
+			Some images in this documentation are zoomable. If you click on the image, you might be able to zoom out for a closer look.
+			</p>
+		</div>
+		<h3>Prerequisites for using this tool:</h3>
+		<ul>
+  <li>A Windows 64-bit operating system</li> 
+  <li><a href="help.html#install_teseract" style="text-decoration:none;">Tesseract OCR</a> installed on the system</li>
+  <li>A Mistral AI <a href="help.html#get_mistral_ai_api_key" style="text-decoration:none;">API Key</a> (required only when using the Mistral OCR engine)</li>
+  <li>To have installed a file archiver for uncompressing the <b>OCRLing_vMAJOR_MINOR_PATCH.zip</b> file. We recommend <a href="https://www.7-zip.org/" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">7-Zip.</a></li>
+  <li>Ensure the tool is stored in a local folder with Read, Write, and Execute permissions enabled for your user or group.</li>
+  <li>Resolutions below 1280 x 960 pixels are not supported. Running OCRLing on such displays causes the application view to be displayed incorrectly (some UI elements may not be visible). </li>
+</ul>
+<h3>Step-by-step guide:</h3>
+<ol type="1">
+  <li>Download OCRLing_vx_x_x.zip file to a local path where you have the read, write and execute permissions</li>
+  <li>In the extracted OCRLing_vMAJOR_MINOR_PATCH folder find the OCRLing.exe file and double-click on it</li>
+  <center>	
+	<img src="images/OCRLing_executable.png" alt="Tool executable" class="responsive">
+  </center>
+  <center>
+	<img src="images/OCRLing_executable_details.png" alt="Tool executable Properties Details" class="responsive">
+  </center>
+  <li>After couple of seconds, the application will be available to access under the Show hidden icons Windows OS menu</li>
+  <br>
+<center>   
+   <div> 
+  <label>
+   <img src='images/OCRLing_in_hidden_icons_menu.png' width="400" alt="OCRLing access under Show hidden icons menu">
+  </label>
+</div>
+</center>
+  <li>Right-click on the OCRLing icon to open the accessible menu options, including <b>Select area</b>, <b>Select image</b>, <b>QR &amp; Barcode Reader</b>, <b>Desktop Color Picker</b>, <b>Settings</b>, <b>About</b>, <b>Help</b>, and <b>Exit</b>.</li>
+  <center>
+	<div> 
+	<label>
+           <img src='images/OCRLing_right_click_menu.png' width="400" alt="First page" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <section id="select_area">
+   <div class="container">
+  <li>After selecting <b>Select Area</b>, a draggable rectangle appears on the screen, allowing you to capture a specific section as a temporary image for OCR analysis.</li>
+   <center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/select_area_rectangle.png' width="400" alt="Select area rectangle" class="responsive">
+  </label>
+</div>
+</center>
+<center>   
+<i>A similar <b>Select Area</b> page will be displayed.</i>
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/select_area_page_sample.png' width="400" alt="Select area page sample" class="responsive">
+  </label>
+</div>
+</center>
+<center>   
+<i>To zoom in on an image, left-click, hold, and drag to navigate and examine details.</i>
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/zoom_image_feature.png' width="400" alt="Zoom in image sample" class="responsive">
+  </label>
+</div>
+</center>
+<center>   
+<i>Click the <b>Return to Fit Screen</b> button to zoom out and restore the image to its original view.</i>
+  <br><br>
+  <label>
+           <img src='images/return_image_to_fit_screen_button.png' width="300" alt="Return image to its original size">
+  </label>
+</center>
+<br>
+<i>Right-click on the image to access the <b>Copy Image to Clipboard</b> option, enabling you to copy the image for use in other tools such as Salesforce, Paint, OneNote, and more.</i>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/copy_image_to_clipboard.png' width="400" alt="Copy Image to Clipboard sample" class="responsive">
+  </label>
+</div>
+</center>
+<i>Right-click on the image to access the <b>Save image As...</b> option, allowing you to save the image in a different format at your chosen location.</i>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/save_image_as_feature.png' width="400" alt="Save image As... sample" class="responsive">
+  </label>
+</div>
+</center>
+<i>Click the <b>Process OCR</b> button to extract text from the image. The extracted text will be displayed under <b>Extracted Text</b> editable box.</i>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/process_mistral_ocr_sample.png' width="400" alt="Process Mistral OCR sample" class="responsive">
+  </label>
+</div>
+</center>
+  <div class="info-box"> 
+	<p style="text-align: left">  <span class="info-icon">&#xf167; <i>Notes</i></span>
+	<br>The first line of the Mistral AI OCR text extraction will display: "OCR Results - Mistral OCR".
+	<br>The first line of the Tesseract OCR text extraction will display: "OCR Results - Tesseract OCR".
+	<br>A loading animation is shown while OCR processing is running.
+	</p>
+  </div>
+The <b>Extracted Text</b> editable box provides several menu options for managing text:
+<ul><br>
+<li>Select All – Highlights all extracted text for quick selection.</li>
+<li>Copy – Copies the selected text to the clipboard for use in other applications.</li>
+<li>Cut – Removes the selected text and places it on the clipboard for pasting elsewhere.</li>
+<li>Paste – Inserts the text from the clipboard into the editable box.</li>
+<li>Undo – Reverts the last action, restoring the previous text state.</li>
+<li>Save – Saves the extracted text to a file for future reference.</li>
+</ul></li>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/extracted_text_menu_options.png' width="400" alt="Extracted Text menu options" class="responsive">
+  </label>
+</div>
+</center> 
+The <b>Translated Text</b> non-editable box provides several menu options for managing text:
+<ul><br>
+<li>Select All – Highlights all extracted text for quick selection.</li>
+<li>Copy – Copies the selected text to the clipboard for use in other applications.</li>
+<li>Save – Saves the extracted text to a file for future reference.</li>
+</ul></li>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/translated_text_menu_options.png' width="400" alt="Translated Text menu options" class="responsive">
+  </label>
+</div>
+</center> 
+The <b>Check Language</b> button analyzes the text in the <b>Extracted Text</b> editable box, identifying its language using the <a href="https://github.com/Mimino666/langdetect" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">langdetect</a> library.
+<br>Once the language is detected, it will be displayed in the <b>Source Language</b> combo box.
+   <br><br>
+   <center>   
+  <label>
+           <img src='images/detected_language.png' width="200" alt="The language detection was successful">
+  </label>
+</center>
+   <br><center>A minimum of 10 characters is required for precise language detection.
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/need_more_text_for_lang_detect.png' width="400" alt="Need at least 10 characters for Language Detect" class="responsive">
+  </label></center>
+  <br>You need to provide something in the <b>Extracted Text</b> editable box, otherwise the language detection process will fail with the error: <b>Enter text to detect language</b>.
+   <center><div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/enter_text_to_detect.png' width="400" alt="Enter text to detect language" class="responsive">
+  </label>
+</div>
+</center>
+   <br>The <b>Source/Target Language</b> combo box displays a list of all languages (245) supported by the <a href="https://github.com/Mimino666/langdetect" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">googletrans</a> library.
+   <br>It allows manual selection or language search with auto-complete functionality.
+  <br><br>
+  <center>
+  <label><img src='images/source_language_auto_complete.png' width="300" alt="Language search with auto-complete functionality"></label>
+  <br>
+  <label>
+  <img src='images/source_language_manual_selection.png' width="300" alt="Manual Language selection"></label>
+</center>
+<br>The <b>Export Text</b> button enables saving the content from the <b>Extracted Text</b> and <b>Translated Text</b> boxes into text files, with format options including Text Document (*.txt), Log Files (*.log), and All Files (*.*).
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/export_text_feature.png' width="400" alt="Export Text feature" class="responsive">
+  </label>
+</div>
+</center> 
+<br>The <b>Translate</b> button converts the text from the <b>Extracted Text</b> box into the <b>Translated Text</b> box using the <a href="https://github.com/Mimino666/langdetect" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">googletrans</a> library.
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/regular_translate.png' width="400" alt="How to use Translate feature?" class="responsive">
+  </label>
+</div>
+</center> 
+The translation supports up to 54411 characters at a time. If the text exceeds this limit, the process will fail with the error: <b>Translation error: URL component 'query' too long.</b>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/translate_text_too_long.png' width="400" alt="Translate text is too long" class="responsive">
+  </label>
+</div>
+</center> 
+When source and target languages are the same, the process will fail with the warning: <b>Source and target languages cannot be the same. Please select different languages.</b>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/choose_different_languages_for_translation.png' width="400" alt="Choose different languages for translation" class="responsive">
+  </label>
+</div>
+</center> 
+When source and/or target languages are not valid, the process will fail with the error: <b>The selected {language_type} language '{language_name}' is not valid. Please select a correct language from the dropdown menu.</b>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/invalid_language.png' width="400" alt="Invalid language" class="responsive">
+  </label>
+</div>
+</center> 
+When source and/or target languages are not provided or selected, the process will fail with the warning: <b>Please select a Source Language from the dropdown menu</b> or <b>Please select a Target Language from the dropdown menu.</b>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/language_not_selected.png' width="400" alt="Language not provided or selected" class="responsive">
+  </label>
+</div>
+</center>  
+The <b>Clear</b> button removes text from both the <b>Extracted Text</b> and <b>Translated Text</b> boxes, resets the <b>Source Language</b> and <b>Target Language</b> to English, and updates the <b>Detected label</b> to <i>Detected: Not analyzed.</i>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/clear_button.png' width="400" alt="Clear button" class="responsive">
+  </label>
+</div>
+</center>  
+</div>
+</section>
+<section id="select_image">
+	<div class="container"> 
+  <li>Once <b>Select image</b> is chosen, the image will be loaded as a temporary file for OCR analysis.</li>
+  <center>   
+<br><i>A similar <b>Select image</b> page will be displayed.</i>
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/select_image_sample_page.png' width="400" alt="Select image page sample" class="responsive">
+  </label>
+</div>
+</center>
+  <center>   
+<i>To zoom in on an image, left-click, hold, and drag to navigate and examine details.</i>
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/zoom_image_feature.png' width="400" alt="Zoom in image sample" class="responsive">
+  </label>
+</div>
+</center>
+<center>   
+<i>Click the <b>Return to Fit Screen</b> button to zoom out and restore the image to its original view.</i>
+  <br><br>
+  <label>
+           <img src='images/return_image_to_fit_screen_button.png' width="300" alt="Return image to its original size">
+  </label>
+</center>
+<br>
+<i>Right-click on the image to access the <b>Copy Image to Clipboard</b> option, enabling you to copy the image for use in other tools such as Salesforce, Paint, OneNote, and more.</i>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/copy_image_to_clipboard.png' width="400" alt="Copy Image to Clipboard sample" class="responsive">
+  </label>
+</div>
+</center>
+<i>Right-click on the image to access the <b>Save image As...</b> option, allowing you to save the image in a different format at your chosen location.</i>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/save_image_as_feature.png' width="400" alt="Save image As... sample" class="responsive">
+  </label>
+</div>
+</center>
+<i>Click the <b>Process OCR</b> button to extract text from the image. The extracted text will be displayed under <b>Extracted Text</b> editable box.</i>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/process_mistral_ocr_sample.png' width="400" alt="Process Mistral OCR sample" class="responsive">
+  </label>
+</div>
+</center>
+  <div class="info-box"> 
+	<p style="text-align: left">  <span class="info-icon">&#xf167; <i>Notes</i></span>
+	<br>The first line of the Mistral AI OCR text extraction will display: "OCR Results - Mistral OCR".
+	<br>The first line of the Tesseract OCR text extraction will display: "OCR Results - Tesseract OCR".
+	<br>A loading animation is shown while OCR processing is running.
+	</p>
+  </div>
+The <b>Extracted Text</b> editable box provides several menu options for managing text:
+<ul><br>
+<li>Select All – Highlights all extracted text for quick selection.</li>
+<li>Copy – Copies the selected text to the clipboard for use in other applications.</li>
+<li>Cut – Removes the selected text and places it on the clipboard for pasting elsewhere.</li>
+<li>Paste – Inserts the text from the clipboard into the editable box.</li>
+<li>Undo – Reverts the last action, restoring the previous text state.</li>
+<li>Save – Saves the extracted text to a file for future reference.</li>
+</ul></li>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/extracted_text_menu_options.png' width="400" alt="Extracted Text menu options" class="responsive">
+  </label>
+</div>
+</center> 
+The <b>Translated Text</b> non-editable box provides several menu options for managing text:
+<ul><br>
+<li>Select All – Highlights all extracted text for quick selection.</li>
+<li>Copy – Copies the selected text to the clipboard for use in other applications.</li>
+<li>Save – Saves the extracted text to a file for future reference.</li>
+</ul></li>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/translated_text_menu_options.png' width="400" alt="Translated Text menu options" class="responsive">
+  </label>
+</div>
+</center> 
+The <b>Check Language</b> button analyzes the text in the <b>Extracted Text</b> editable box, identifying its language using the <a href="https://github.com/Mimino666/langdetect" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">langdetect</a> library.
+<br>Once the language is detected, it will be displayed in the <b>Source Language</b> combo box.
+   <br><br>
+   <center>   
+  <label>
+           <img src='images/detected_language.png' width="200" alt="The language detection was successful">
+  </label>
+</center>
+   <br><center>A minimum of 10 characters is required for precise language detection.
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/need_more_text_for_lang_detect.png' width="400" alt="Need at least 10 characters for Language Detect" class="responsive">
+  </label></center>
+  <br>You need to provide something in the <b>Extracted Text</b> editable box, otherwise the language detection process will fail with the error: <b>Enter text to detect language</b>.
+   <center><div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/enter_text_to_detect.png' width="400" alt="Enter text to detect language" class="responsive">
+  </label>
+</div>
+</center>
+   <br>The <b>Source/Target Language</b> combo box displays a list of all languages (245) supported by the <a href="https://github.com/Mimino666/langdetect" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">googletrans</a> library.
+   <br>It allows manual selection or language search with auto-complete functionality.
+  <br><br>
+  <center>
+  <label><img src='images/source_language_auto_complete.png' width="300" alt="Language search with auto-complete functionality"></label>
+  <br>
+  <label>
+  <img src='images/source_language_manual_selection.png' width="300" alt="Manual Language selection"></label>
+</center>
+<br>The <b>Export Text</b> button enables saving the content from the <b>Extracted Text</b> and <b>Translated Text</b> boxes into text files, with format options including Text Document (*.txt), Log Files (*.log), and All Files (*.*).
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/export_text_feature.png' width="400" alt="Export Text feature" class="responsive">
+  </label>
+</div>
+</center> 
+<br>The <b>Translate</b> button converts the text from the <b>Extracted Text</b> box into the <b>Translated Text</b> box using the <a href="https://github.com/Mimino666/langdetect" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">googletrans</a> library.
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/regular_translate.png' width="400" alt="How to use Translate feature?" class="responsive">
+  </label>
+</div>
+</center> 
+The translation supports up to 54411 characters at a time. If the text exceeds this limit, the process will fail with the error: <b>Translation error: URL component 'query' too long.</b>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/translate_text_too_long.png' width="400" alt="Translate text is too long" class="responsive">
+  </label>
+</div>
+</center> 
+When source and target languages are the same, the process will fail with the warning: <b>Source and target languages cannot be the same. Please select different languages.</b>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/choose_different_languages_for_translation.png' width="400" alt="Choose different languages for translation" class="responsive">
+  </label>
+</div>
+</center> 
+When source and/or target languages are not valid, the process will fail with the error: <b>The selected {language_type} language '{language_name}' is not valid. Please select a correct language from the dropdown menu.</b>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/invalid_language.png' width="400" alt="Invalid language" class="responsive">
+  </label>
+</div>
+</center> 
+When source and/or target languages are not provided or selected, the process will fail with the warning: <b>Please select a Source Language from the dropdown menu</b> or <b>Please select a Target Language from the dropdown menu.</b>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/language_not_selected.png' width="400" alt="Language not provided or selected" class="responsive">
+  </label>
+</div>
+</center>
+The <b>Clear</b> button removes text from both the <b>Extracted Text</b> and <b>Translated Text</b> boxes, resets the <b>Source Language</b> and <b>Target Language</b> to English, and updates the <b>Detected label</b> to <i>Detected: Not analyzed.</i>
+<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/clear_button.png' width="400" alt="Clear button" class="responsive">
+  </label>
+</div>
+</center>  
+</div>
+</section>
+<section id="qr_barcode_reader">
+	<div class="container">
+  <li>Selecting <a href="qr_barcode_reader.html" style="text-decoration:none;" target="_blank" rel="noopener noreferrer"><b>QR &amp; Barcode Reader</b></a> opens the browser-based reader in your default system browser, allowing you to decode QR codes and barcodes from image files or a live camera feed.</li>
+  <h3>Overview</h3>
+  <p>
+    The QR &amp; Barcode Reader is a browser-based tool that decodes QR codes and barcodes entirely
+    on-device — no image data is ever uploaded to a server. It supports two input modes:
+  </p>
+  <ul>
+    <li><strong>Image mode</strong> — decode a static image loaded from a file, drag-and-drop, or the clipboard.</li>
+    <li><strong>Camera mode</strong> — decode codes in real time from a connected webcam or device camera.</li>
+  </ul>
+  <p>
+    The tool uses the <strong>ZXing</strong> library for static image decoding and
+    <strong>html5-qrcode</strong> for live camera scanning, giving reliable coverage of all common 1D and
+    2D barcode formats.
+  </p>
+  <h3>Supported Formats</h3>
+  <ul>
+    <li><strong>2D codes:</strong> QR Code, Aztec, Data Matrix, MaxiCode, PDF-417</li>
+    <li><strong>1D barcodes:</strong> Code 39, Code 93, Code 128, EAN-8, EAN-13, UPC-A, UPC-E,
+      Codabar, ITF, RSS-14, RSS Expanded, UPC/EAN Extension</li>
+  </ul>
+  <h3>Step 1 — Open the Tool</h3>
+  <p>
+    Select <strong>QR &amp; Barcode Reader</strong> from the right-click tray menu.
+	<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/qr_and_barcode_access.png' width="400" alt="QR &amp; Barcode Reader Access" class="responsive">
+  </label>
+</div>
+</center>  
+    The page opens in Image mode by default. Two tab buttons — <strong>🖼️ Image</strong> and
+    <strong>📷 Camera</strong> — appear at the top-right of the Input Source panel to switch between
+    modes.
+  </p>
+  <p>
+    The <strong>ℹ️ info button</strong> (top-right of the page) opens the user guide.
+    The <strong>🌙 theme button</strong> toggles between dark and light mode.
+  </p>
+  <p>
+    If the ZXing library fails to load from CDN (e.g. no internet connection on first use), a warning
+    banner appears at the top of the page. Reload the page once connectivity is restored.
+  </p>
+  <h3>Step 2 — Load an Image (Image Mode)</h3>
+  <p>Four methods are available for loading an image into the tool:</p>
+  	<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/qr_and_barcode_initial_page.png' width="400" alt="QR &amp; Barcode Reader Initial Page" class="responsive">
+  </label>
+</div>
+</center>  
+  <ol>
+    <li><strong>Drag and drop</strong> — Drag an image file from File Explorer and drop it onto the drop zone area labelled <em>"Drop image here"</em>.</li>
+    <li><strong>File picker</strong> — Click the drop zone (or the <strong>📁 Load New</strong> button after an image is already loaded) to open the system file picker. Accepted formats: PNG, JPG, GIF, BMP, WebP, TIFF.</li>
+    <li><strong>Paste (Ctrl+V)</strong> — Copy an image to the clipboard (e.g. from a screenshot tool or browser right-click → Copy image) and press <strong>Ctrl+V</strong> anywhere on the page while the Image tab is active.</li>
+    <li><strong>Paste button</strong> — Click <strong>📋 Paste</strong> (visible after an image is loaded) to pull the current clipboard image via the browser Clipboard API. The browser will prompt for clipboard permission on the first use.</li>
+  </ol>
+  <p>Once loaded, a canvas preview of the image is displayed below the drop zone. The image enhancement controls and the <strong>🔍 Scan Now</strong> button appear automatically.</p>
+  <h3>Step 3 — Enhance the Image (Optional)</h3>
+  <p>
+    The <strong>Image Enhancement</strong> panel is shown on the right once an image is loaded.
+    Adjustments are applied in real time and update the preview canvas. All sliders and toggles
+    can be reset together by clicking <strong>↺ Reset</strong>.
+  </p>
+  <ul>
+    <li><strong>Brightness</strong> (10 – 300 %) — Lightens or darkens the image. Increase this if the code is printed on a very dark background.</li>
+    <li><strong>Contrast</strong> (10 – 300 %) — Sharpens the difference between light and dark regions. Increasing contrast often helps with faded or low-quality prints.</li>
+    <li><strong>Binarize</strong> (threshold 0 – 255) — Converts the image to pure black and white using the given threshold value. A threshold of around 128–150 works well for most printed barcodes. Leave at 0 (Off) to skip binarization.</li>
+    <li><strong>Grayscale</strong> — Removes colour information before decoding. Recommended for coloured QR codes or codes printed on coloured backgrounds.</li>
+    <li><strong>Invert</strong> — Inverts all pixel values, making dark areas light and vice versa. Useful for white-on-black or laser-engraved codes.</li>
+    <li><strong>Sharpen</strong> — Applies a sharpening convolution kernel to enhance edges. Helps with slightly blurry or low-resolution images.</li>
+  </ul>
+  <h3>Step 4 — Scan the Image</h3>
+  <p>Click <strong>🔍 Scan Now</strong> to decode the currently displayed (and enhanced) image. A spinning indicator appears during the scan. The result is shown in the <strong>Decoded Result</strong> panel on the right.</p>
+  <p>If no code is found, an error message is displayed with a suggestion to try enabling Grayscale, increasing Contrast, or using Binarize. Adjust the enhancement sliders and click <strong>Scan Now</strong> again — no need to reload the image.</p>
+  <p>To remove the current image and start over, click <strong>🗑️ Clear</strong>.</p>
+  <h3>Step 5 — Switch to Camera Mode</h3>
+  <p>Click the <strong>📷 Camera</strong> tab to switch to live camera scanning. 
+    	<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/qr_and_barcode_camera_mode.png' width="400" alt="QR &amp; Barcode Reader Camera" class="responsive">
+  </label>
+</div>
+</center>  
+  The camera does <strong>not</strong> start automatically — it only starts when the user explicitly clicks <strong>▶ Start Camera</strong>.</p>
+  <p>A <strong>camera selector dropdown</strong> lists all available cameras on the device. If multiple cameras are present (e.g. front and rear on a tablet), select the desired one before or after starting. Changing the selection while the camera is running switches to the newly selected device immediately.</p>
+  <h3>Step 6 — Start and Use the Camera</h3>
+  <p>Click <strong>▶ Start Camera</strong> to request camera permission and begin scanning. The browser will display a permission prompt on the first use — allow camera access to continue.</p>
+  <p>Once running:</p>
+  <ul>
+    <li>The <strong>Active / Inactive badge</strong> next to the controls turns green and shows <em>● Active</em> to confirm the camera is live.</li>
+    <li>The video feed fills the viewer area. A <strong>shaded scan region</strong> (dimmed border with a bright centre box) is overlaid on the video — position the QR code or barcode inside this bright area for fastest recognition.</li>
+    <li>The camera scans <strong>continuously at 15 frames per second</strong> until the user stops it. No manual trigger is required.</li>
+    <li>When a code is detected, a <strong>green highlight box</strong> appears around the detected code in the video frame.</li>
+  </ul>
+  <p>Click <strong>■ Stop</strong> to stop the camera. The badge returns to <em>● Inactive</em>.</p>
+  <h3>Step 7 — View the Camera Scan Result</h3>
+  <p>Each time a new code is detected, the result is shown in two places simultaneously:</p>
+  <ul>
+    <li><strong>Inline result card</strong> (below the video) — Shows the detected format badge, the full decoded text, and a thumbnail image of the captured video frame at the moment of detection. The same code is not reported again within 1.5 seconds to prevent duplicate entries.</li>
+    <li><strong>Decoded Result panel</strong> (right side) — Shows the format name, character count, and the full decoded string. The <strong>📋 Copy</strong> and <strong>🌐 Open URL</strong> buttons are available here for post-scan actions.</li>
+  </ul>
+  <p>Click <strong>✕ Clear</strong> in the inline result card to dismiss the camera scan result. This also resets the right-panel result and allows the next scan to be shown cleanly. The camera continues scanning after clearing — the camera is not stopped.</p>
+  <h3>Step 8 — Work with the Decoded Result</h3>
+  <p>After a successful scan (image or camera), the <strong>Decoded Result</strong> panel shows:</p>
+  <ul>
+    <li><strong>Format badge</strong> — colour-coded label identifying the code type: blue for QR Code, purple for 2D codes (Aztec, Data Matrix, PDF-417, MaxiCode), orange for 1D barcodes.</li>
+    <li><strong>Format and length</strong> — e.g. <em>Format: Code 128 · 12 characters</em>.</li>
+    <li><strong>Decoded data</strong> — the full plain-text content of the code.</li>
+  </ul>
+  <p>Available actions:</p>
+  <ul>
+    <li><strong>📋 Copy</strong> — Copies the decoded text to the clipboard. A toast notification confirms the copy.</li>
+    <li><strong>🌐 Open URL</strong> — Visible only when the decoded text starts with <code>http://</code> or <code>https://</code>. Opens the URL in a new browser tab.</li>
+  </ul>
+  <h3>Controls Reference</h3>
+  <ul>
+    <li><strong>🖼️ Image tab</strong> — Switches the input panel to static image mode.</li>
+    <li><strong>📷 Camera tab</strong> — Switches the input panel to live camera mode.</li>
+    <li><strong>Drop zone</strong> — Accepts image files by click, drag-and-drop, or Ctrl+V paste.</li>
+    <li><strong>📁 Load New</strong> — Opens the file picker to replace the current image.</li>
+    <li><strong>📋 Paste</strong> — Reads an image from the clipboard (requires browser permission).</li>
+    <li><strong>🗑️ Clear</strong> (image) — Removes the current image and resets the result panel.</li>
+    <li><strong>🔍 Scan Now</strong> — Decodes the currently displayed (enhanced) image.</li>
+    <li><strong>↺ Reset</strong> — Resets all enhancement sliders and toggles to their defaults.</li>
+    <li><strong>Camera selector</strong> — Dropdown listing all detected cameras; used to choose input device.</li>
+    <li><strong>▶ Start Camera</strong> — Requests camera permission and begins continuous live scanning.</li>
+    <li><strong>■ Stop</strong> — Stops the camera stream and returns to the inactive state.</li>
+    <li><strong>● Active / ● Inactive badge</strong> — Real-time indicator of camera running state.</li>
+    <li><strong>✕ Clear</strong> (camera) — Dismisses the inline scan result; camera continues scanning.</li>
+    <li><strong>📋 Copy</strong> (result panel) — Copies the decoded text to clipboard.</li>
+    <li><strong>🌐 Open URL</strong> (result panel) — Opens a decoded HTTPS/HTTP link in a new tab.</li>
+    <li><strong>ℹ️ button</strong> (top-right) — Opens this user guide overlay.</li>
+    <li><strong>🌙 theme button</strong> (top-right) — Toggles dark / light colour theme.</li>
+  </ul>
+  <h3>Tips for Better Scanning</h3>
+  <ul>
+    <li><strong>Blurry or low-resolution images</strong> — Enable <strong>Sharpen</strong> and increase <strong>Contrast</strong> to 150–200 %. If the image is very dark, raise <strong>Brightness</strong> first.</li>
+    <li><strong>Coloured QR codes</strong> — Enable <strong>Grayscale</strong> to remove colour interference before scanning.</li>
+    <li><strong>White-on-black or inverted codes</strong> — Enable <strong>Invert</strong> to flip the pixel values so ZXing sees a conventional dark-on-light code.</li>
+    <li><strong>Faded printed barcodes</strong> — Use <strong>Binarize</strong> at threshold 100–150 to convert the image to strict black and white, eliminating background noise.</li>
+    <li><strong>Camera scanning distance</strong> — Hold the code inside the bright centre of the scan box. Move closer or further until the code fills roughly half to two-thirds of the scan box.</li>
+    <li><strong>Camera focus</strong> — The tool requests continuous autofocus from the camera driver automatically. On fixed-focus webcams this step is silently skipped; ensure the camera is at an appropriate distance so the code falls within the fixed depth-of-field.</li>
+    <li><strong>Lighting</strong> — Avoid direct glare on glossy labels. Diffuse, even lighting gives the best results.</li>
+  </ul>
+  <h3>Troubleshooting</h3>
+  <ul>
+    <li><strong>"The ZXing scanning library failed to load"</strong>
+      <ul>
+        <li>The tool requires an internet connection to download the ZXing and html5-qrcode libraries from CDN on first use. Connect to the internet and reload the page.</li>
+        <li>If a corporate proxy or firewall blocks CDN traffic, allow access to <code>cdn.jsdelivr.net</code> and <code>unpkg.com</code>.</li>
+      </ul>
+    </li>
+    <li><strong>"No QR code or barcode detected in this image"</strong>
+      <ul>
+        <li>Try enabling <strong>Grayscale</strong> and increasing <strong>Contrast</strong> to 150–200 %.</li>
+        <li>If the code is on a dark background, raise <strong>Brightness</strong> first.</li>
+        <li>For printed codes on plain paper, try <strong>Binarize</strong> at threshold 120–140.</li>
+        <li>For white-on-black or laser-engraved codes, enable <strong>Invert</strong>.</li>
+        <li>Ensure the full code (including its quiet zone / white border) is visible in the image.</li>
+      </ul>
+    </li>
+    <li><strong>"Camera access denied" or camera permission prompt does not appear</strong>
+      <ul>
+        <li>Open the browser's site permissions for this page and re-enable camera access, then reload.</li>
+        <li>In Chrome: address bar lock icon → Site settings → Camera → Allow.</li>
+        <li>In Edge: address bar lock icon → Permissions for this site → Camera → Allow.</li>
+        <li>Camera access requires a secure context (HTTPS or localhost). If the page is served over plain HTTP, the browser will block all camera requests.</li>
+      </ul>
+    </li>
+    <li><strong>"Failed to start camera: OverconstrainedError"</strong>
+      <ul>
+        <li>This error can occur if the selected camera driver does not support the requested constraints. The tool automatically retries with progressively looser constraints (non-exact device ID, then environment/user facing mode). If all retries fail, select a different camera from the dropdown.</li>
+      </ul>
+    </li>
+    <li><strong>Camera starts but no code is ever detected</strong>
+      <ul>
+        <li>Position the barcode or QR code inside the <strong>bright centre box</strong> of the scan region overlay. Codes outside this area are not decoded.</li>
+        <li>Ensure there is sufficient lighting — avoid scanning in dim conditions.</li>
+        <li>On fixed-focus webcams, check that the code is within the camera's minimum focus distance (typically 30–50 cm). Move further away if the code appears blurry in the video.</li>
+        <li>Try a different camera from the selector if more than one is available.</li>
+      </ul>
+    </li>
+    <li><strong>The same code is detected repeatedly every few seconds</strong>
+      <ul>
+        <li>This is expected behaviour — the same code is intentionally suppressed for 1.5 seconds between reports. Move the code out of frame, then back in, to force a fresh detection immediately.</li>
+      </ul>
+    </li>
+    <li><strong>The camera dropdown is empty or shows "No cameras detected"</strong>
+      <ul>
+        <li>The dropdown is populated only after <strong>▶ Start Camera</strong> is clicked, because camera labels require a permission grant before they are readable. Click Start Camera and grant permission — the dropdown will populate automatically.</li>
+        <li>If no cameras appear after permission is granted, check that the camera is physically connected and recognised by the operating system (Device Manager on Windows).</li>
+      </ul>
+    </li>
+    <li><strong>Paste (Ctrl+V) does not load an image</strong>
+      <ul>
+        <li>Ctrl+V paste is only active when the <strong>Image tab</strong> is selected.</li>
+        <li>Ensure the clipboard actually contains an image, not a file path. Copy the image content itself (e.g. right-click → Copy image in a browser, or use a screenshot tool).</li>
+        <li>Some browsers limit clipboard image access; use the <strong>📋 Paste</strong> button as an alternative — it uses the Clipboard API with an explicit permission prompt.</li>
+      </ul>
+    </li>
+    <li><strong>Open URL button does not appear after scanning a QR code</strong>
+      <ul>
+        <li>The button is only shown when the decoded text begins with <code>http://</code> or <code>https://</code>. If the QR code contains a URL in another format (e.g. no protocol prefix), copy the text manually and paste it into the browser address bar.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+</section>
+<section id="desktop_color_picker">
+	<div class="container">
+<li><b>Desktop Color Picker</b> is a comprehensive color selection and analysis tool.</li> 
+<center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/desktop_color_picker_feature.png' width="200" alt="Desktop Color Picker page" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <b>Core Functionality:</b>
+  <ul>
+  <li><b>Pixel Color Detection</b>: Click anywhere on your screen to capture the exact color of that pixel</li>
+  <li><b>Color Wheel Interface</b>: Interactive color wheel for manual color selection</li>
+  <li><b>Multi-Format Display</b>: Shows color values in Hex, RGB, and HSV formats simultaneously</li>
+  <li><b>Real-time Updates</b>: All color formats update automatically when you select a new color</li>
+  <li><b>Clipboard Integration</b>: One-click copying of hex values for immediate use</li>
+  </ul>
+  <br>
+  <b>User Workflow:</b>
+  <ol type="1">
+  <li>Click <b>Start Picking</b> → Mouse becomes a crosshair</li>
+  	<label>
+           <img src='images/cross_sample.png' width="50" alt="Cross sample" class="responsive">
+	</label>
+  <li>Click any pixel on your desktop → Color information is captured</li>
+  <li>Press mouse right-click to cancel selection at any time</li>
+  <li>Use the color wheel for fine-tuning or manual selection</li>
+  <li>Copy Hex/RGB/HSV values directly to clipboard for use in code</li>
+  </ol>
+  <br>
+  <b>Use Cases:</b>
+  <ul>
+  <li><b>Logo Color Extraction</b>: Pull exact brand colors from client materials</li>
+  <li><b>RPA Color Job Execution Comparer</b>: This tool helps you compare colors that have been extracted or configured by your RPA automation. Use it as a starting point when troubleshooting color-related issues in your automated processes.</li>
+  <center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/rpa_use_case.png' width="400" alt="RPA Use case" class="responsive">
+  </label>
+</div>
+</center>
+  <li><b>Style Guide Creation</b>: Build comprehensive color palettes for projects</li>
+  <li><b>Competitor Analysis</b>: Analyze color schemes from competitor websites</li>
+  <li><b>Color Verification</b>: Confirm implemented colors match specifications</li>
+  <li><b>Cross-Browser Testing</b>: Verify color rendering consistency</li>
+  <li><b>Pixel-Perfect Selection</b>: No guessing or approximation</li>
+  <li><b>Real-time Conversion</b>: Instant format conversion saves calculation time</li>
+  <li><b>Error-Free Input</b>: Eliminates manual hex calculation mistakes</li>
+  <li><b>Copy-Paste Ready</b>: Direct clipboard integration for immediate use</li>
+  <li><b>No Context Switching</b>: Pick colors without leaving your development environment</li>
+  <li><b>Batch Color Collection</b>: Quickly gather multiple colors for palette creation</li>
+  </ul>
+   </div>
+</section>
+<section id="settings">
+	<div class="container"> 
+   <li>In the <b>Settings</b> page you can control:</li>
+   <center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/Settings_page.png' width="400" alt="Settings Page" class="responsive">
+  </label>
+</div>
+</center>
+  <div class="info-box">
+	<p style="text-align: left">  <span class="info-icon">&#xf167; <i>Notes</i></span>
+		<br>The configured settings for the app are stored in the <i>./settings/settings.ini</i> file.
+		<center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/settings_ini_file_location.png' width="400" alt="Settings.ini file location" class="responsive">
+	</label>
+	</div> 
+  </center>
+	</p>
+</div>
+<ul>
+  <li>The <b>default OCR engine</b> can be selected between Tesseract OCR and Mistral OCR.</li>
+  <center>
+	<div class='click-zoom'>
+	<label>
+      <input type='checkbox' />
+           <img src='images/choose_default_ocr.png' width="400" alt="Choose default OCR engine" class="responsive">
+	</label>
+	</div>
+  </center>
+  <li>The <b>Mistral AI API Key</b> text field allows to store it for later usage. It will take effect only when the Mistral OCR is used as the default OCR engine.</li>
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/mistral_api_key.png' width="400" alt="Mistral API Key field" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <ul>
+  <li>The <b>Get API Key</b> button allows opening <a href="https://console.mistral.ai/api-keys" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">Your API keys</a> in a new tab in your default system browser.</li>
+  <br>
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/your_api_keys_page.png' width="400" alt="Your API Keys page" class="responsive">
+	</label>
+	</div> 
+  </center>
+   <li>The <b>Test API Key</b> button provides a quick verification of the Mistral AI API key.</li>
+   <br>
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/api_key_is_correct.png' width="350" alt="The API Key is valid" class="responsive">
+	</label>
+	</div> 
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/invalid_api_key.png' width="400" alt="The API Key is not correct" class="responsive">
+	</label>
+	</div> 
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/api_key_not_configured.png' width="300" alt="The API Key was not configured/provided" class="responsive">
+	</label>
+	</div> 
+  </center>
+  </ul>
+  <li>The <b>Default tesseract.exe path</b> is a non-editable text field that stores the full local path to tesseract.exe. It will take effect only when the Tesseract OCR is used as the default OCR engine.</li>
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/default_tesseract_exe_path_section.png' width="400" alt="Default tesseract.exe local path section" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <ul>
+  <li>The <b>Browse</b> button allows specifying the local path of tesseract.exe file.</li>
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/select_tesseract_exe_path.png' width="400" alt="Browse for tesseract.exe local path" class="responsive">
+	</label>
+	</div> 
+  </center>
+	<li>The <b>Get installer</b> button allows opening <a href="https://github.com/UB-Mannheim/tesseract/wiki" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">Tesseract Wiki</a> in a new tab in your default system browser. The respective page contains the Tesseract Windows installer.</li>
+  <br>
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/tesseract_wiki_page.png' width="400" alt="Tesseract Wiki page" class="responsive">
+	</label>
+	</div> 
+  </center>
+  </ul>
+  <li><b>Reset</b> button restores the application to its original settings, setting Tesseract OCR as the default engine, removing the Mistral API Key, and clearing the local tesseract.exe path.</li>
+  <center>
+	<label>
+      <input type='checkbox' />
+           <img src='images/reset_settings_button.png' width="300" alt="Reset Settings Button">
+	</label>
+  </center>
+  <li><b>Restart</b> button allows application restart</li>
+  <center>
+	<label>
+           <img src='images/restart_button.png' width="300" alt="Restart Application Button">
+	</label>
+  </center>
+</ul>
+</div>
+</section>
+<section id="about">
+	<div class="container"> 
+<li>On the <b>About</b> page, you will have some short information about this tool</li> 
+<center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/About_page.png' width="400" alt="About page" class="responsive">
+	</label>
+	</div> 
+  </center> 
+  </div>
+</section>
+<section id="help">
+	<div class="container"> 
+<li>Selecting the <b>Help</b> option will open the <i>./documentation/help.html</i> webpage in the default system browser, allowing to review the app documentation.</li> 
+<center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/Help_page.png' width="400" alt="Help documentation web browser page" class="responsive">
+	</label>
+	</div> 
+  </center>
+   </div>
+</section>
+<section id="exit">
+	<div class="container"> 
+<li>Selecting the <b>Exit</b> option will close the application along with any open pages.</li>  
+	<center><label>
+           <img src='images/exit_menu.png' width="400" alt="Select Exit option" class="responsive">
+	</label></center>
+   </div>
+</section> 
+</ol>  
+</div>
+</section>
+<section id="install_teseract">
+    <div class="container">
+	<h3>How to install Tesseract OCR: Step-by-Step Guide</h3>
+	  <div class="info-box"> 
+	<p style="text-align: left">  <span class="info-icon">&#xf167; <i>Notes</i></span>
+	<br>Tesseract is a command-line tool designed for extracting text from images. 
+	<br>Administrative permissions may be required for installation and usage on your system.
+	</p>
+  </div>
+To install Tesseract on Windows, you need to follow up on the below-given instructions.
+<ol type="1">
+  <li><b>Download Tesseract Installer</b></li>
+  <br>Navigate to the Tesseract Wiki <a href="https://github.com/UB-Mannheim/tesseract/wiki" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">link</a> and download the Tesseract installer according to your system specification.
+  <br><br><a href="https://github.com/tesseract-ocr/tesseract/releases/download/5.5.0/tesseract-ocr-w64-setup-5.5.0.20241111.exe" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">Link</a> for download.
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/tesseract_wiki_page.png' width="400" alt="Tesseract Wiki page" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <li><b>Run Tesseract Installer</b></li>
+  <br>Visit the directory where the Tesseract installer is downloaded (usually is <b>%userprofile%/Downloads</b>). In order to install Tesseract on Windows, execute the Tesseract installer by double-clicking on it.
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/run_tesseract_installer.png' width="400" alt="Run Tesseract Installer" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <li><b>Select Language</b></li>
+  <br>Many languages are supported by the Tesseract installer. To interact with the Installer UI, choose <b>English</b> as your language and click on <b>OK</b>:
+    <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/tesseract_installer_select_language.png' width="400" alt="Tesseract Installer - Select language" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <li><b>Install Tesseract</b></li>
+  <br><center>Upon doing so, the Tesseract OCR setup wizard will appear on the screen. To begin Tesseract installation, hit the <b>Next</b> button:</center>
+    <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/tesseract_installer_click_next.png' width="400" alt="Tesseract Installer - Click Next" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <br><center>To accept the <b>License Agreement</b>, click the <b>I Agree</b> button:</center>
+    <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/tesseract_installer_click_agree.png' width="400" alt="Tesseract Installer - Click I Agree" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <br><center>Select the <b>Install for anyone using this computer</b> option and press the <b>Next</b> button:</center>
+      <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/tesseract_installer_install_for_anyone.png' width="400" alt="Tesseract Installer - Install type" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <br>If you want to add script data or include another language, mark their respective checkboxes and hit the <b>Next</b> button. As we do not want any additional data script or language, therefore, we will continue with the default selected options:
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/tesseract_installer_select_additional_script_data.png' width="400" alt="Tesseract Installer - Select to add additional script data" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <br><center>Choose the installation location and click on the <b>Next</b> button:</center>
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/tesseract_installer_choose_install_location.png' width="400" alt="Tesseract Installer - Choose install location" class="responsive">
+	</label>
+	</div> 
+  </center>  
+  <br><center>If you do not want to create a shortcut in the Start menu, then mark the <b>Do not create shortcuts</b> checkbox and press the <b>Install</b> button:</center>
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/tesseract_installer_choose_start_menu_folder.png' width="400" alt="Tesseract Installer - Choose Start Menu Folder" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <br><center>After that, the Tesseract installation will be started. Wait until the installation will complete and hit the <b>Next</b> button:</center>
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/tesseract_installer_complete_click_next.png' width="400" alt="Tesseract Installer - Installation complete" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <br><center>Lastly, click on the <b>Finish</b> button:</center>
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/tesseract_installer_click_finish.png' width="400" alt="Tesseract Installer - Click Finish" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <li><b>(Optional) Set Environment Variable</b></li>
+    <br>After installation, you need to set the environment variable of the Tesseract. To do so, first visit the directory where you have installed the Tesseract and copy the path from the <b>Address</b> bar:
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/tesseract_copy_address_bar.png' width="400" alt="Tesseract Copy Address Bar" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <br><center>Make a search for <b>Environment Variables</b> in the <b>Startup</b> menu and open <b>Edit the system environment variables</b>:</center>
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/open_environment_variables.png' width="400" alt="Open Environment Variables" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <br><center>Inside the settings, navigate to the <b>Advanced</b> setting menu and click on the <b>Environment Variables</b> button:</center>
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/environment_variables.png' width="400" alt="Open Environment Variables menu" class="responsive">
+	</label>
+	</div> 
+  </center>
+  <br><center>Choose the <b>Path</b> Variable from the <b>System Variables</b> panel, and hit the <b>Edit</b> button:</center>
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/environment_varibles_choose_path.png' width="400" alt="Environment Variables Edit Path" class="responsive">
+	</label>
+	</div> 
+  </center>
+   <br>After that <b>Edit Environment Variable</b> window will appear on the screen. Press the <b>New</b> button and paste the copied Tesseract installation directory path here. Lastly, click on the "<b>OK</b> button:
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/environment_variables_add_new.png' width="400" alt="Environment Variables Add New" class="responsive">
+	</label>
+	</div> 
+  </center>  
+  <li><b>(Optional) Verify Tesseract installation</b></li>
+  <br>To verify Tesseract Installation, open the Windows Command Prompt by searching <b>Command Prompt</b> in the <b>Startup</b> menu:
+  <br><br>Check out the Tesseract version using provided command:
+  <pre><code>tesseract --version</code></pre>
+   <br><center>The below-given output indicates that we have successfully installed Tesseract version <b>v5.5.0.20241111</b> on Windows</center>
+  <center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+      <img src='images/verify_if_tesseract_is_installed.png' width="400" alt="Verify if Tesseract is installed" class="responsive">
+	</label>
+	</div> 
+  </center>
+</ol>
+	</div>
+</section>
+<section id="get_mistral_ai_api_key">
+    <div class="container">
+	<h3>How to Retrieve a Mistral AI API Key: Step-by-Step Guide</h3>
+	This key will allow your application to interact with Mistral AI's services for OCR and other functionalities.
+<ol type="1"> 
+<li><b>Visit the Mistral AI Website</b> – Open your preferred web browser and go to the official <a href="https://console.mistral.ai/" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">Mistral AI website.</a></li>
+<li><b>Log in or Sign Up</b> – If you already have an account, log in. Otherwise, create a new account by following the registration process.</li>
+<center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/mistraI_ai_login_page.png' width="200" alt="Mistral AI Login page" class="responsive">
+	</label>
+	</div> 
+  </center>
+<li><b>Navigate to API Keys</b> – Once logged in, go to the <a href="https://console.mistral.ai/api-keys" style="text-decoration:none;" target="_blank" rel="noopener noreferrer">API Keys section</a> or developer settings in your account dashboard.</li>
+<li><b>Create new key</b> – Locate the option to create a new API key, then follow the prompts to generate one.</li>
+<center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/mistral_generate_new_api_key.png' width="200" alt="Mistral AI create a new key" class="responsive">
+	</label>
+	</div> 
+  </center>
+<li><b>Copy and Store Your Key</b> – Securely save the API key for future use, ensuring it's accessible when integrating with applications.</li>
+<center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/mistral_ai_copy_key.png' width="200" alt="Mistral AI copy new key" class="responsive">
+	</label>
+	</div> 
+  </center>
+<li><b>Verify API Access</b> – Ensure the API key functions correctly by testing it according to Mistral AI's authentication guidelines. You can also verify the same key in the <b>OCRLing Settings</b> page by entering the <b>Mistral AI API Key</b> and selecting <b>Test API Key</b>.</li>
+</ol>
+	</div>
+</section>
+
+
+
+<section id="open_ocrling_at_startup">
+    <div class="container">
+	<h3>How to open OCRLing at the Windows startup: Step-by-Step Guide</h3>
+	To add an executable to your Windows startup, you can choose from several methods depending on whether you want it to launch for just the current user or all users on the system, and whether the application includes its own startup feature. The steps below demonstrate how to use the Startup Folder approach—a widely used method that works for most executables.
+<ol type="1"> 
+<li>Open the Run dialog box: Press the <b>Windows</b> key + <b>R</b>.
+<br>Access the Startup folder: Type <b>shell:startup</b> and press <b>Enter</b>. This will open the Startup folder in File Explorer for the current logged user in the system.</li>
+<center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/shell_startup_single_user.png' width="200" alt="Startup for current user" class="responsive">
+	</label>
+	</div> 
+</center>
+You may also use <b>shell:common startup</b> to configure the startup behavior for all users on the device.
+<center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/shell_startup_all_users.png' width="200" alt="Startup for all users" class="responsive">
+	</label>
+	</div> 
+</center>
+<li><b>Create a shortcut</b>: Right-click inside the Startup folder and select New > Shortcut.</li>
+<center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/create_shortcut.png' width="200" alt="Create shortcut" class="responsive">
+	</label>
+	</div> 
+</center>
+<li><b>Locate the executable</b>: Click <b>Browse</b> to find the executable OCRLing.exe file.</li>
+<center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/locate_executable.png' width="200" alt="Locate executable" class="responsive">
+	</label>
+	</div> 
+</center>
+<li><b>Finish creating the shortcut</b>: Click <b>Next</b>, give the shortcut a name (optional), and click <b>Finish</b>.</li>
+<center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/click_finish.png' width="200" alt="Click finish" class="responsive">
+	</label>
+	</div> 
+</center>
+<li><b>Verify (optional)</b>: Open Task Manager (Ctrl+Shift+Esc), go to the Startup apps tab, and ensure the program is listed and set to Enabled.</li>
+<center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/verify_startup.png' width="200" alt="Verify startup" class="responsive">
+	</label>
+	</div> 
+</center>
+<li><b>Restart</b>: Restart your computer to see the program launch automatically in the system tray.</li>
+<center>
+	<div class='click-zoom'> 
+	<label>
+      <input type='checkbox' />
+           <img src='images/system_tray.png' width="200" alt="System tray" class="responsive">
+	</label>
+	</div> 
+</center>
+</ol>
+	</div>
+</section>
+<section id="troubleshooting">
+    <div class="container">
+	<h3>Troubleshooting</h3>
+
+	<h4>QR Code and Barcode Scanner</h4>
+	<ul>
+
+	<li><b>QR code / barcode is not detected</b><br>
+	The scanner applies multiple image preprocessing algorithms automatically, but some images may be too blurry, low-contrast, or partially obstructed for reliable detection.
+	<br><b>Solution:</b>
+	<ul>
+	<li>Use a higher-resolution or better-lit source image.</li>
+	<li>Ensure the QR code or barcode is not rotated more than 45 degrees from horizontal.</li>
+	<li>Crop the image so the code occupies a larger portion of the frame before scanning.</li>
+	<li>Try loading the image from file (<b>Select Image</b>) instead of a screen capture for better quality.</li>
+	</ul>
+	</li>
+
+	<li><b>Scan results window appears too small or content is cut off</b><br>
+	<b>Solution:</b> Use the vertical scrollbar on the right side of the results window to scroll through all content. You can also resize or maximize the window — all content remains accessible.
+	</li>
+
+	</ul>
+
+	<h4>General</h4>
+	<ul>
+
+	<li><b>OCRLing.exe does not start or crashes silently</b><br>
+	<b>Solution:</b>
+	<ul>
+	<li>Check the <i>./logs/application.log</i> file for error details immediately after the crash.</li>
+	<li>Ensure the OCRLing folder is in a location where your user account has Read, Write, and Execute permissions.</li>
+	<li>Verify the folder structure is intact — do not move individual files out of the OCRLing directory.</li>
+	</ul>
+	</li>
+
+	<li><b>Settings are not saved between sessions</b><br>
+	<b>Solution:</b> Ensure the <i>./settings/</i> folder exists and your user account has Write permissions to it. The settings are stored in <i>./settings/settings.ini</i>.
+	</li>
+
+	<li><b>Translation fails with "URL component 'query' too long"</b><br>
+	The Google Translate integration supports up to 54,411 characters per translation request.
+	<br><b>Solution:</b> Split the text into smaller segments and translate each separately.
+	</li>
+
+	</ul>
+    </div>
+</section>
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="year"></span> UiPath Support Team. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

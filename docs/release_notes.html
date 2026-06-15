@@ -1,0 +1,280 @@
+<!DOCTYPE html> 
+<html lang='en-US' xml:lang='en-US'> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OCRLing Documentation - Release Notes</title>
+	<link rel="icon" href="images/app_logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+    <nav>
+      <ul class="nav-menu nav-center">
+        <li><a href="help.html">Home</a></li>
+		<li><a href="release_notes.html">Release Notes</a></li>
+		<li><a href="help.html#troubleshooting">Troubleshooting</a></li>
+      </ul>
+    </nav>
+</header>
+    <section id="release_notes">
+        <div class="container">
+		<h1>OCRLing Release Notes</h1>
+		</div>
+	</section>
+		<section id="v1_0_1">
+        <div class="container">
+		<h2>v1.0.1</h2>
+		<h4>What's New</h4>
+		<ul>
+		 <section id="menu_tray">
+		  <div class="container">
+		  <li><b>Menu tray</b><br>Right-click on the OCRLing icon to open the accessible menu options, including <b>Select area</b>, <b>Select image</b>, <b>QR &amp; Barcode Reader</b>, <b>Desktop Color Picker</b>, <b>Settings</b>, <b>About</b>, <b>Help</b>, and <b>Exit</b>.</li>
+  <center>
+	<div> 
+	<label>
+           <img src='images/OCRLing_right_click_menu.png' width="400" alt="First page" class="responsive">
+	</label>
+	</div> 
+  </center>
+		</div>
+		</section>
+		  <section id="loading_overlay">
+		  <div class="container">
+		  <li><b>OCR Loading Animation</b><br>An animated loading indicator is now displayed over the OCR window while text extraction is in progress.</li>
+		  <ul>
+		    <li>The animation appears automatically when <b>Process OCR</b> is clicked and disappears as soon as results are ready.</li>
+		    <li>OCR processing runs on a background thread so the UI remains responsive during extraction.</li>
+		    <li>A status label below the animation confirms processing is underway.</li>
+		  </ul>
+		  </div>
+		  </section>
+		  <section id="scrollable_windows">
+		  <div class="container">
+		  <li><b>Scrollable Result Windows</b><br>All result windows (Select Area OCR and Select Image OCR) now include a vertical scrollbar.</li>
+		  <ul>
+		    <li>Windows can be resized to any size — all content remains accessible by scrolling.</li>
+		    <li>Frames stretch horizontally to fill the window width automatically on initial load.</li>
+		    <li>The mouse wheel scrolls the window content when the cursor is inside the window; when hovering over the image, the scroll wheel zooms the image instead.</li>
+		  </ul>
+		  </div>
+		  </section>
+		  <section id="logging_feature">
+		  <div class="container">
+		  <li><b>Application Logging</b><br>This tool enables event logs to be displayed in message boxes and stored in the <i>./logs/application.log</i> file.</li>
+		  <center>
+				<div class='click-zoom'> 
+				<label>
+				  <input type='checkbox' />
+					   <img src='images/invalid_api_key.png' width="400" alt="Message box sample" class="responsive">
+				</label>
+				</div> 
+			  </center>
+		  <ul> <li>Log format:
+			<pre><code>{time} | {process} | {level} | {file} | {module}:{function}:{line} | {message}</code></pre>
+			<center>
+				<div class='click-zoom'> 
+				<label>
+				  <input type='checkbox' />
+					   <img src='images/Application_logs_sample.png' width="400" alt="Application logs sample" class="responsive">
+				</label>
+				</div> 
+			  </center>
+		  </li>
+		  <li>Logs are rotated daily.</li>
+		  <center>
+				<div class='click-zoom'> 
+				<label>
+				  <input type='checkbox' />
+					   <img src='images/logs_are_rotated_daily.png' width="400" alt="Application logs are rotated daily" class="responsive">
+				</label>
+				</div> 
+			  </center>
+		  <li>Logs are retained for one month.</i>
+		</ul>
+		</div>
+		</section>
+		<section id="select_area">
+		  <div class="container">
+		  <li><b>Select area</b></li>
+		  After selecting <b><a href="help.html#select_area" style="text-decoration:none;">Select area</a></b>, a draggable rectangle appears on the screen, allowing you to capture a specific section as a temporary image for OCR analysis.
+		  <center>
+		     <div class='click-zoom'> 
+			  <label>
+				  <input type='checkbox' />
+					   <img src='images/select_area_page_sample.png' width="400" alt="Select area page sample" class="responsive">
+			  </label>
+			</div>
+			</center>
+		  These features are included:
+		  <ul> 
+		  <li>View loaded image</li>
+		  <li>Use the zoom-in and zoom-out functions to adjust the image's magnification, allowing you to examine details more closely or return to a wider view.</li>
+		  <li>Hold and drag the image to move around and explore its details.</li>
+		  <li>Copy Image to Clipboard – Allows you to copy the image for use in other applications.</li>
+		  <li>Save Image As... – Allows saving the image in a different format and location of your choice.</li>
+		  <li>OCR Text Extraction – Extracts text from images using either Tesseract OCR or Mistral AI OCR, depending on the selected engine.</li>
+		  <li>Text Language Detection – Identifies the language of the provided text using advanced linguistic analysis techniques.</li>
+		  <li>Error Handling – Manages unexpected issues during processing, ensuring stability and providing relevant error messages for troubleshooting.</li>
+		  <li>The Extracted Text editable box provides several menu options for managing text:
+			<ul>
+			<li>Select All – Highlights all extracted text for quick selection.</li>
+			<li>Copy – Copies the selected text to the clipboard for use in other applications.</li>
+			<li>Cut – Removes the selected text and places it on the clipboard for pasting elsewhere.</li>
+			<li>Paste – Inserts the text from the clipboard into the editable box.</li>
+			<li>Undo – Reverts the last action, restoring the previous text state.</li>
+			<li>Save – Saves the extracted text to a file for future reference.</li>
+			</ul>
+		  </li>
+		  <li>The Translated Text editable box provides several menu options for managing text:
+			<ul>
+			<li>Select All – Highlights all extracted text for quick selection.</li>
+			<li>Copy – Copies the selected text to the clipboard for use in other applications.</li>
+			<li>Save – Saves the extracted text to a file for future reference.</li>
+			</ul>
+		  </li>
+		  <li>The Source/Target Language combo box displays a list of all languages (245) supported by the googletrans library.
+           It allows manual selection or language search with auto-complete functionality.</li>
+		   <li>Convert the text from the Extracted Text box into the Translated Text box using the googletrans library.</li>
+		   <li>Clear button removes text from both the Extracted Text and Translated Text boxes, resets the Source Language and Target Language to English, and updates the Detected label to Detected: Not analyzed.</li>
+		</ul>
+		</div>
+		</section>
+		<section id="select_image">
+		  <div class="container">
+		  <li><b>Select image</b></li>
+		  Once the <b><a href="help.html#select_image" style="text-decoration:none;">Select image</a></b> is selected, the image will be loaded as a temporary file for OCR analysis.
+		     <center>
+			 <div class='click-zoom'> 
+			  <label>
+				  <input type='checkbox' />
+					   <img src='images/select_image_sample_page.png' width="400" alt="Select image page sample" class="responsive">
+			  </label>
+			</div>
+			</center>
+		  These features are included:
+		  <ul> 
+		  <li>View loaded image</li>
+		  <li>Use the zoom-in and zoom-out functions to adjust the image's magnification, allowing you to examine details more closely or return to a wider view.</li>
+		  <li>Hold and drag the image to move around and explore its details.</li>
+		  <li>Copy Image to Clipboard – Allows you to copy the image for use in other applications.</li>
+		  <li>Save Image As... – Allows saving the image in a different format and location of your choice.</li>
+		  <li>OCR Text Extraction – Extracts text from images using either Tesseract OCR or Mistral AI OCR, depending on the selected engine.</li>
+		  <li>Text Language Detection – Identifies the language of the provided text using advanced linguistic analysis techniques.</li>
+		  <li>Error Handling – Manages unexpected issues during processing, ensuring stability and providing relevant error messages for troubleshooting.</li>
+		  <li>The Extracted Text editable box provides several menu options for managing text:
+			<ul>
+			<li>Select All – Highlights all extracted text for quick selection.</li>
+			<li>Copy – Copies the selected text to the clipboard for use in other applications.</li>
+			<li>Cut – Removes the selected text and places it on the clipboard for pasting elsewhere.</li>
+			<li>Paste – Inserts the text from the clipboard into the editable box.</li>
+			<li>Undo – Reverts the last action, restoring the previous text state.</li>
+			<li>Save – Saves the extracted text to a file for future reference.</li>
+			</ul>
+		  </li>
+		  <li>The Translated Text editable box provides several menu options for managing text:
+			<ul>
+			<li>Select All – Highlights all extracted text for quick selection.</li>
+			<li>Copy – Copies the selected text to the clipboard for use in other applications.</li>
+			<li>Save – Saves the extracted text to a file for future reference.</li>
+			</ul>
+		  </li>
+		  <li>The Source/Target Language combo box displays a list of all languages (245) supported by the googletrans library.
+           It allows manual selection or language search with auto-complete functionality.</li>
+		   <li>Convert the text from the Extracted Text box into the Translated Text box using the googletrans library.</li>
+		   <li>Clear button removes text from both the Extracted Text and Translated Text boxes, resets the Source Language and Target Language to English, and updates the Detected label to Detected: Not analyzed.</li>
+		</ul>
+		</div>
+		<section id="qr_barcode_reader">
+		  <div class="container">
+		  <li><b>QR &amp; Barcode Reader</b></li>
+		  Selecting <b><a href="help.html#qr_barcode_reader" style="text-decoration:none;">QR &amp; Barcode Reader</a></b> opens the browser-based reader in your default system browser.
+		  	<center>   
+   <div class='click-zoom'> 
+  <label>
+      <input type='checkbox' />
+           <img src='images/qr_and_barcode_sample.png' width="400" alt="QR &amp; Barcode Reader Sample" class="responsive">
+  </label>
+</div>
+</center> 
+		  These features are included:
+		    <ul>
+			  <li>Browser-based tool — no image data is ever uploaded to a server.</li>
+			  <li>Two input modes: <strong>Image mode</strong> (load from file, drag-and-drop, or clipboard) and <strong>Camera mode</strong> (live webcam scanning).</li>
+			  <li>Supports 2D codes (QR Code, Aztec, Data Matrix, MaxiCode, PDF-417) and 1D barcodes (Code 39, Code 93, Code 128, EAN-8, EAN-13, UPC-A, UPC-E, Codabar, ITF, RSS-14, RSS Expanded, UPC/EAN Extension).</li>
+			  <li>Image enhancement controls: Brightness, Contrast, Binarize, Grayscale, Invert, and Sharpen — applied in real time before scanning.</li>
+			  <li>Decoded results shown in the Decoded Result panel with format badge, character count, and full decoded text.</li>
+			  <li>Copy decoded text to clipboard or open decoded URLs directly in a new tab.</li>
+			  <li>Camera mode scans continuously at 15 fps with a green highlight box on detected codes.</li>
+			  <li>Dark/light theme toggle and built-in user guide overlay.</li>
+			 </ul>
+		  </div>
+		  </section>
+
+		<section id="desktop_color_picker">
+		  <div class="container">
+		  <li><b>Desktop Color Picker</b></li>
+		  Once the <b><a href="help.html#desktop_color_picker" style="text-decoration:none;">Desktop Color Picker</a></b> is selected, the below page will open:
+		  <center>
+			<div class='click-zoom'> 
+			<label>
+			  <input type='checkbox' />
+				   <img src='images/desktop_color_picker_feature.png' width="200" alt="Desktop Color Picker page" class="responsive">
+			</label>
+			</div> 
+		  </center>
+		  <br><br>These features are included:
+		    <ul>
+			  <li><b>Pixel Color Detection</b>: Click anywhere on your screen to capture the exact color of that pixel</li>
+			  <li><b>Color Wheel Interface</b>: Interactive color wheel for manual color selection</li>
+			  <li><b>Multi-Format Display</b>: Shows color values in Hex, RGB, and HSV formats simultaneously</li>
+			  <li><b>Real-time Updates</b>: All color formats update automatically when you select a new color</li>
+			  <li><b>Clipboard Integration</b>: One-click copying of hex values for immediate use</li>
+			 </ul>
+		  </div>
+		  </section>
+		</section>
+		<section id="settings">
+		  <div class="container">
+		  <li><b>Settings</b></li>
+		  <b><a href="help.html#settings" style="text-decoration:none;">Settings</a></b> allows to set or control:
+		  <ul>
+		  <li>The default OCR engine can be selected between Tesseract OCR and Mistral OCR.</li>
+		  <li>The Mistral AI API Key text field allows to store it for later usage. It will take effect only when the Mistral OCR is used as the default OCR engine.</li>
+		  <li>The Default tesseract.exe path is a non-editable text field that stores the full local path to tesseract.exe. It will take effect only when the Tesseract OCR is used as the default OCR engine.</li>
+		  <li>Reset button restores the application to its original settings, setting Tesseract OCR as the default engine, removing the Mistral API Key, and clearing the local tesseract.exe path.</li>
+		  <li>Restart button allows application restart</li>
+		  </ul>
+		</div>
+		</section>
+		<section id="about">
+		  <div class="container">
+		  <li><b>About</b></li>
+		  <b><a href="help.html#about" style="text-decoration:none;">About</a></b> page will have some short information about this tool.
+		</div>
+		</section>
+		<section id="help">
+		  <div class="container">
+		  <li><b>Help</b></li>
+		  <b><a href="help.html#help" style="text-decoration:none;">Help</a></b> option will open the ./documentation/help.html webpage in the default system browser, allowing to review the app documentation.
+		</div>
+		</section>
+		<section id="exit">
+		  <div class="container">
+		  <li><b>Exit</b></li>
+		  <b><a href="help.html#exit" style="text-decoration:none;">Exit</a></b> option will close the application along with any open pages.
+		</div>
+		</section>
+		</ul> 
+		</div>
+		</section>  
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="year"></span> UiPath Support Team. All rights reserved.</p>
+        </div>
+    </footer>
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
