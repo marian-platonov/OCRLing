@@ -202,7 +202,7 @@ All features are accessed by **right-clicking the OCRLing system tray icon**:
 
 | Library | Purpose |
 |---|---|
-| [Python 3.13.9](https://www.python.org/downloads/release/python-3139/) | Runtime |
+| [Python 3.14.6](https://www.python.org/downloads/release/python-3146/) | Runtime |
 | [customtkinter](https://customtkinter.tomschimansky.com/) | Modern UI |
 | [Tesseract OCR](https://github.com/UB-Mannheim/tesseract/wiki) | Local text recognition |
 | [Mistral AI](https://mistral.ai/) | Cloud text recognition |
