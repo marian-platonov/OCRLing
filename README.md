@@ -4,7 +4,7 @@ A standalone Windows desktop OCR tool that lives in your system tray. It extract
 
 No Python installation required - just extract the ZIP and run `OCRLing.exe`.
 
-**Download:** [OCRLing_v1.0.1](https://drive.google.com/file/d/1GjkFEgafQAvWVPMqzKtMXLDGJntuW5AU/view?usp=sharing)
+**Download:** [OCRLing_v1.0.1](https://drive.google.com/file/d/1T8AE_iq-9AmiMJzz30LSsDqxGBjkf6AF/view?usp=sharing)
 
 ---
 
