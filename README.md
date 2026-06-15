@@ -66,7 +66,7 @@ flowchart TD
 
 | Feature | Details |
 |---|---|
-| **Select Area OCR** | Draw a rectangle on any part of the screen — that region is captured and sent for OCR |
+| **Select Area OCR** | Draw a rectangle on any part of the screen - that region is captured and sent for OCR |
 | **Select Image OCR** | Browse for any image file (PNG, JPG, etc.) and extract its text |
 | **Dual OCR engines** | Switch between **Tesseract** (offline, free) and **Mistral AI** (cloud, higher accuracy) in Settings |
 | **Language detection** | Automatically identifies the language of extracted text via [langdetect](https://github.com/Mimino666/langdetect) |
@@ -79,19 +79,19 @@ flowchart TD
 
 ### QR & Barcode Reader
 
-Browser-based — all decoding happens locally on your device, no uploads:
+Browser-based - all decoding happens locally on your device, no uploads:
 
 | Feature | Details |
 |---|---|
-| **Static image** | Upload, drag-and-drop, paste, or use clipboard — supports all common formats |
+| **Static image** | Upload, drag-and-drop, paste, or use clipboard - supports all common formats |
 | **Live camera** | 15 fps continuous scan with a green highlight overlay on detected codes |
-| **Image enhancement** | Brightness, Contrast, Binarize, Grayscale, Invert, Sharpen — real-time preview |
+| **Image enhancement** | Brightness, Contrast, Binarize, Grayscale, Invert, Sharpen - real-time preview |
 | **Supported formats** | QR Code, Aztec, Data Matrix, MaxiCode, PDF-417, Code 39/93/128, EAN-8/13, UPC-A/E, Codabar, ITF, RSS |
 | **Result actions** | Copy to clipboard or open decoded URL directly |
 
 ### Desktop Color Picker
 
-Click anywhere on the screen to capture the pixel color. Outputs **HEX**, **RGB**, and **HSL** values — handy for UI design, RPA automation, and accessibility work.
+Click anywhere on the screen to capture the pixel color. Outputs **HEX**, **RGB**, and **HSL** values - handy for UI design, RPA automation, and accessibility work.
 
 ### Application Logging
 
@@ -106,11 +106,11 @@ Click anywhere on the screen to capture the pixel color. Outputs **HEX**, **RGB*
 | Requirement | Notes |
 |---|---|
 | Windows 64-bit | Required |
-| Tesseract OCR | Needed for the Tesseract engine — [install guide below](#install-tesseract-ocr) |
-| Mistral AI API Key | Needed only for the Mistral engine — [get a key below](#get-a-mistral-ai-api-key) |
+| Tesseract OCR | Needed for the Tesseract engine - [install guide below](#install-tesseract-ocr) |
+| Mistral AI API Key | Needed only for the Mistral engine - [get a key below](#get-a-mistral-ai-api-key) |
 | Archive tool | [7-Zip](https://www.7-zip.org/) recommended for extracting the release ZIP |
 | Folder permissions | Read, Write, Execute on the OCRLing install folder |
-| Display resolution | Minimum **1280 × 960 px** — smaller resolutions cause UI elements to be cut off |
+| Display resolution | Minimum **1280 × 960 px** - smaller resolutions cause UI elements to be cut off |
 
 ---
 
@@ -118,7 +118,7 @@ Click anywhere on the screen to capture the pixel color. Outputs **HEX**, **RGB*
 
 1. Download `OCRLing_v1_0_1.zip` from the [Releases](../../releases) page or the [Google Drive link](https://drive.google.com/file/d/1GjkFEgafQAvWVPMqzKtMXLDGJntuW5AU/view?usp=sharing)
 2. Extract to a local folder where you have Read, Write, and Execute permissions
-3. Double-click **OCRLing.exe** — no Python or library installation needed
+3. Double-click **OCRLing.exe** - no Python or library installation needed
 4. After a few seconds the app loads into the system tray (check the hidden icons area in the taskbar)
 5. **Right-click the tray icon** to access all features
 
@@ -129,7 +129,7 @@ Click anywhere on the screen to capture the pixel color. Outputs **HEX**, **RGB*
 ### Install Tesseract OCR
 
 1. Visit the [Tesseract wiki](https://github.com/UB-Mannheim/tesseract/wiki) and download the Windows installer
-2. Run the installer — select any additional language packs you need
+2. Run the installer - select any additional language packs you need
 3. Note the installation path (e.g. `C:\Program Files\Tesseract-OCR\tesseract.exe`)
 4. In OCRLing → right-click tray → **Settings** → paste the Tesseract executable path
 
@@ -178,7 +178,7 @@ All features are accessed by **right-clicking the OCRLing system tray icon**:
 - Minimum supported resolution is 1280 × 960 px
 
 **Translation stops partway through?**
-- Google Translate has a per-request character limit — split very long texts into smaller chunks
+- Google Translate has a per-request character limit - split very long texts into smaller chunks
 
 **Settings not persisting?**
 - Ensure OCRLing is stored in a folder where your user account has Write permissions
@@ -210,8 +210,8 @@ All features are accessed by **right-clicking the OCRLing system tray icon**:
 
 Full documentation with step-by-step screenshots lives in the [`docs/`](docs/) folder:
 
-- [`docs/help.html`](docs/help.html) — Complete usage and setup guide
-- [`docs/release_notes.html`](docs/release_notes.html) — v1.0.1 release notes
-- [`docs/qr_barcode_reader.html`](docs/qr_barcode_reader.html) — Standalone QR & Barcode decoder (open directly in browser)
+- [`docs/help.html`](docs/help.html) - Complete usage and setup guide
+- [`docs/release_notes.html`](docs/release_notes.html) - v1.0.1 release notes
+- [`docs/qr_barcode_reader.html`](docs/qr_barcode_reader.html) - Standalone QR & Barcode decoder (open directly in browser)
 
 > To browse the docs locally: clone or download the repo, then open `docs/help.html` in any browser.
