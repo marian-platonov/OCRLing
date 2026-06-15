@@ -214,6 +214,7 @@ All features are accessed by **right-clicking the OCRLing system tray icon**:
 | [Icons8](https://icons8.com/icons/set) | Icons |
 | [pigar 2.2.0](https://github.com/damnever/pigar) | `requirements.txt` generation |
 | [PyInstaller 6.20.0](https://pyinstaller.org/) | Packaging `OCRLing.exe` standalone executable |
+| [7-Zip](https://www.7-zip.org/) | ZIP packaging of the release archive |
 
 ---
 
