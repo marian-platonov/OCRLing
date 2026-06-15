@@ -91,6 +91,8 @@ Browser-based - all decoding happens locally on your device, no uploads:
 
 ### Desktop Color Picker
 
+<img width="480" height="1043" alt="image" src="https://github.com/user-attachments/assets/9b0a5cc5-c5f8-42a2-af0f-54e2fa42bcc2" />
+
 Click anywhere on the screen to capture the pixel color. Outputs **HEX**, **RGB**, and **HSL** values - handy for UI design, RPA automation, and accessibility work.
 
 ### Application Logging
